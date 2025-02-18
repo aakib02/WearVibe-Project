@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Product Submission</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="webcrumbs"> 
+        <div class="w-full min-h-screen bg-gray-50 p-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-2xl font-semibold text-center mb-8">Vendor Product Submission</h2>
+
+                    <form id="productForm">
+                        <section class="space-y-8">
+                            <div class="bg-blue-50 rounded-lg p-6">
+                                <h3 class="text-xl font-semibold mb-4">Vendor Details</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Vendor Name</label>
+                                        <input type="text" name="vendorName" required class="w-full border rounded-lg p-2.5 hover:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="Your full name" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Business Name</label>
+                                        <input type="text" name="businessName" required class="w-full border rounded-lg p-2.5 hover:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="Your business name" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Email Address</label>
+                                        <input type="email" name="email" required class="w-full border rounded-lg p-2.5 hover:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="business@example.com" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Phone Number</label>
+                                        <input type="tel" name="phone" required class="w-full border rounded-lg p-2.5 hover:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="+1 (555) 000-0000" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Business Address</label>
+                                        <input type="text" name="BusinessAddress" required class="w-full border rounded-lg p-2.5 hover:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="123 Business Street" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">City</label>
+                                        <input type="text" name="city" required class="w-full border rounded-lg p-2.5 hover:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="Your City" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">State/Province</label>
+                                        <input type="text" name="state" required class="w-full border rounded-lg p-2.5 hover:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="Your State" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">ZIP/Postal Code</label>
+                                        <input type="text" name="zip" required class="w-full border rounded-lg p-2.5 hover:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="12345" />
+                                    </div>
+                                   
+                                  
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">GST Number</label>
+                                        <input type="text" name="gstNumber" class="w-full border rounded-lg p-2.5 hover:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="Enter GST Number" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Tax ID</label>
+                                        <input type="text" name="taxId" class="w-full border rounded-lg p-2.5 hover:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="Enter Tax ID" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Brand Name</label>
+                                        <input type="text" name="brandName" required class="w-full border rounded-lg p-2.5 hover:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="Enter Brand name" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end">
+                                <button type="submit" class="group px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transform hover:scale-105 transition-all duration-200">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="material-symbols-outlined">rocket_launch</span>
+                                        <span>Submit Product Request</span>
+                                    </span>
+                                </button>
+                            </div>
+                        </section>
+                    </form>
+                </div>
+            </div>
+        </div> 
+    </div>
+
+    <script src="../frontend/reqVendorForm.js"></script>
+</body>
+</html>

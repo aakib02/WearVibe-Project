@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Vendor & User Management</title>
+    <style>
+        body {
+            background-color: #f3f4f6;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        h3 {
+            font-size: 20px;
+            margin: 20px 0 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #e2e8f0;
+        }
+        select {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .filter-container {
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 5px 10px;
+            margin-top: 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .update-btn {
+            background-color: #008CBA;
+        }
+        .update-btn:hover {
+            background-color: #007B9E;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Dashboard - Vendor & User Management</h2>
+        
+        <h3>Vendor Approvals</h3>
+        <div class="filter-container">
+            <label for="vendorFilter">Filter by Status:</label>
+            <select id="vendorFilter" onchange="fetchVendors()">
+                <option value="all">All</option>
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="suspended">Suspended</option>
+            </select>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Shop Name</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="vendorTable"></tbody>
+        </table>
+
+        <h3>User Role Management</h3>
+        <div class="filter-container">
+            <label for="userFilter">Filter by Role:</label>
+            <select id="userFilter" onchange="fetchUsers()">
+                <option value="all">All</option>
+                <option value="user">User</option>
+                <option value="vendor">Vendor</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody id="userTable"></tbody>
+        </table>
+
+        <div class="filter-container">
+            <button class="update-btn" onclick="updateAllChanges()">Update All Changes</button>
+        </div>
+    </div>
+
+    <script>
+        let vendorsToUpdate = [];
+        let usersToUpdate = [];
+
+        // Function to get the token from cookies
+        function getTokenFromCookies() {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; token=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null; // Return null if no token is found
+        }
+
+        // Function to fetch vendors with token in header
+        async function fetchVendors() {
+            const token = getTokenFromCookies();  // Get token from cookies
+            if (!token) {
+                console.error('No token found!');
+                return;  // Exit if token is not found
+            }
+
+            const filter = document.getElementById("vendorFilter").value;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/getVendor', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`  // Include token in the Authorization header
+                    }
+                });
+
+                const vendors = await response.json();
+                const vendorData = vendors.data
+                // console.log(vendors.data,'hiii');
+                const vendorTable = document.getElementById("vendorTable");
+                vendorTable.innerHTML = "";
+
+                vendorData.filter(vendor => filter === 'all' || vendor.status === filter)
+                    .forEach(vendor => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${vendor.businessName}</td>
+                            <td>
+                                <select id="status-${vendor._id}" onchange="markVendorChange('${vendor._id}', this.value)">
+                                    <option value="pending" ${vendor.status === "pending" ? "selected" : ""}>Pending</option>
+                                    <option value="approved" ${vendor.status === "approved" ? "selected" : ""}>Approved</option>
+                                    <option value="suspended" ${vendor.status === "suspended" ? "selected" : ""}>Suspended</option>
+                                </select>
+                            </td>
+                        `;
+                        vendorTable.appendChild(row);
+                    });
+            } catch (error) {
+                console.error('Error fetching vendors:', error);
+            }
+        }
+
+        // Function to fetch users with token in header
+        async function fetchUsers() {
+            const token = getTokenFromCookies();  // Get token from cookies
+            if (!token) {
+                console.error('No token found!');
+                return;  // Exit if token is not found
+            }
+
+            const filter = document.getElementById("userFilter").value;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/getVendor', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`  // Include token in the Authorization header
+                    }
+                });
+
+                const user = await response.json();
+                const users = user.data;
+                console.log(users );
+                const userTable = document.getElementById("userTable");
+                userTable.innerHTML = "";
+
+                users.filter(user => filter === 'all' || user.role === filter)
+                    .forEach(user => {
+                        console.log(user);
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${user.vendorName.fullName}</td>
+                            <td>
+                                <select id="role-${user.vendorName._id}" onchange="markUserChange('${user.vendorName._id}', this.value)">
+                                    <option value="user" ${user.vendorName.role === "customer" ? "selected" : ""}>customer</option>
+                                    <option value="vendor" ${user.vendorName.role === "vendor" ? "selected" : ""}>Vendor</option>
+                                    <option value="admin" ${user.vendorName.role === "admin" ? "selected" : ""}>Admin</option>
+                                </select>
+                            </td>
+                        `;
+                        userTable.appendChild(row);
+                    });
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        }
+
+        function markUserChange(userId, role) {
+            usersToUpdate.push({ userId, role });
+        }
+
+        function markVendorChange(vendorId, status) {
+            vendorsToUpdate.push({ vendorId, status });
+        }
+
+        async function updateAllChanges() {
+            const token = getTokenFromCookies();  // Get token from cookies
+            if (!token) {
+                console.error('No token found!');
+                return;  // Exit if token is not found
+            }
+            // Update vendors
+            for (const vendor of vendorsToUpdate) {
+                console.log(vendor.status,'vendor');
+                await fetch(`http://localhost:3000/api/updateVendorStatus/${vendor.vendorId}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}`  
+                     },
+                    body: JSON.stringify({ status: vendor.status })
+                });
+            }
+
+            // Update users
+          
+            for (const user of usersToUpdate) {
+                console.log(user.role,' aakib data');
+                await fetch(`http://localhost:3000/api/changeRole/${user.userId}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" ,
+                        'Authorization': `Bearer ${token}`  
+                    },
+                    body: JSON.stringify({ role: user.role })
+                });
+            }
+
+            // Re-fetch the data
+            fetchVendors();
+            fetchUsers();
+            alert('All changes updated successfully!');
+            vendorsToUpdate = [];
+            usersToUpdate = [];
+        }
+
+        fetchVendors();
+        fetchUsers();
+    </script>
+</body>
+</html>

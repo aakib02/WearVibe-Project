@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+<header class="bg-white shadow-md sticky top-0 z-50">
+    <nav class="flex items-center justify-between px-8 py-4">
+        <h1 class="text-2xl font-bold">WearVibe</h1>
+        <div class="relative">
+            <span class="material-symbols-outlined cursor-pointer" id="favorite-icon">favorite</span>
+            <span class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center" id="favorite-count">0</span>
+        </div>
+    </nav>
+</header>
+
+<div class="container mx-auto my-10">
+    <h2 class="text-xl font-semibold">Your Wishlist</h2>
+
+    <div id="wishlist-items" class="mt-6 space-y-6"></div>
+
+    <div id="emptyWishlistMessage" class="text-center py-16 hidden">
+        <span class="material-symbols-outlined text-6xl text-gray-300">favorite</span>
+        <p class="mt-4 text-lg text-gray-500">Your wishlist is empty</p>
+    </div>
+</div>
+
+<script>
+function displayWishlist() {
+    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    const wishlistContainer = document.getElementById("wishlist-items");
+
+    wishlistContainer.innerHTML = "";
+
+    if (wishlist.length === 0) {
+        document.getElementById("emptyWishlistMessage").classList.remove("hidden");
+        return;
+    }
+
+    wishlist.forEach((item, index) => {
+        let colors = Array.isArray(item.colors) ? item.colors.join(", ") : "Not specified";
+        let sizes = Array.isArray(item.sizes) ? item.sizes.join(", ") : "Not specified";
+
+        wishlistContainer.innerHTML += `
+            <div class="flex items-center justify-between border-b py-3">
+                <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
+                <div class="flex-grow px-4">
+                    <h3 class="font-semibold">${item.name}</h3>
+                    <p class="text-sm"><strong>Category:</strong> ${item.category || "Unknown"}</p>
+                    <p class="text-sm"><strong>Colors:</strong> ${colors}</p>
+                    <p class="text-sm"><strong>Sizes:</strong> ${sizes}</p>
+                    <p class="text-sm"><strong>Price:</strong> ₹${item.finalPrice}</p>
+                </div>
+                <button class="text-red-500 hover:text-red-700" onclick="removeFromWishlist(${index})">Remove</button>
+            </div>
+        `;
+    });
+
+    updateWishlistCount();
+}
+
+function removeFromWishlist(index) {
+    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    wishlist.splice(index, 1);
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    displayWishlist();
+}
+
+function updateWishlistCount() {
+    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    document.getElementById("favorite-count").innerText = wishlist.length;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    displayWishlist();
+});
+</script>
+
+</body>
+</html>

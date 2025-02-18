@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist</title>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+    <style>
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <header class="bg-white shadow-md py-4">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <a href="garment.html" class="text-xl font-bold">Back to Shop</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto py-8 px-4">
+        <h2 class="text-2xl font-bold mb-4">My Wishlist</h2>
+        <div id="wishlist-items" class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Wishlist Items will be displayed here -->
+        </div>
+    </main>
+
+    <script>
+        // Attempt to get the wishlist from localStorage
+        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        const wishlistItemsContainer = document.getElementById('wishlist-items');
+
+        // Log wishlist data to the console for debugging
+        console.log("Wishlist data from localStorage:", wishlist);
+
+        // Display wishlist items
+        function displayWishlist() {
+            if (wishlist.length === 0) {
+                wishlistItemsContainer.innerHTML = '<p class="text-gray-500">Your wishlist is empty.</p>';
+            } else {
+                wishlistItemsContainer.innerHTML = wishlist.map(item => `
+                    <div class="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-all fade-in">
+                        <h2 class="font-bold text-xl">${item}</h2>
+                    </div>
+                `).join('');
+            }
+        }
+
+        displayWishlist(); // Display items when the page loads
+    </script>
+</body>
+</html>

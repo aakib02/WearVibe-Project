@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    
+    <!-- Sidebar -->
+    <div class="flex h-screen">
+        <aside class="w-64 bg-white shadow-md p-6 hidden sm:block">
+            <h1 class="text-xl font-semibold mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined text-blue-600">store</span> WearVibe
+            </h1>
+            <nav class="space-y-2">
+                <a href="vendordash.html" class="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                    <span class="material-symbols-outlined">dashboard</span> Dashboard Overview
+                </a>
+                
+                <a href="3" class="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                    <span class="material-symbols-outlined">inventory_2</span> Products Management
+                </a>
+                
+                <a href="orderdashboard.html" class="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                    <span class="material-symbols-outlined">local_shipping</span> Orders & Shipments
+                </a>
+                
+                <a href="#" class="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                    <span class="material-symbols-outlined">analytics</span> Sales Analytics
+                </a>
+                
+                <a href="#" class="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                    <span class="material-symbols-outlined">group</span> Customer Management
+                </a>
+                
+                <a href="#" class="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                    <span class="material-symbols-outlined">settings</span> Settings
+                </a>
+                
+            </nav>
+        </aside>
+    
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col min-h-screen">
+            <!-- Top Bar -->
+            <header class="bg-white shadow-md p-4 flex justify-between items-center">
+                <div class="relative w-2/5">
+                    <input type="text" placeholder="Search..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500">
+                    <span class="material-symbols-outlined absolute left-3 top-2.5 text-gray-500">search</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="material-symbols-outlined text-2xl cursor-pointer">notifications</span>
+                    <details class="relative">
+                        <summary class="flex items-center cursor-pointer">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-8 h-8 rounded-full">
+                        </summary>
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2">
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
+                            <a href="login.html" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
+                        </div>
+                    </details>
+                </div>
+            </header>
+    
+            <!-- Dashboard Overview -->
+            <main class="p-6">
+                <h2 class="text-xl font-semibold mb-4">Orders & Shipments</h2>
+                
+                <div class="max-w-7xl mx-auto space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                        <!-- Total Orders Card -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex items-center space-x-4">
+                                <span class="p-3 bg-blue-100 rounded-lg">
+                                    <span class="material-symbols-outlined text-blue-600">shopping_cart</span>
+                                </span>
+                                <div>
+                                    <p class="text-sm">Total Orders</p>
+                                    <p class="text-2xl font-bold">1,234</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="material-symbols-outlined text-green-500">trending_up</span>
+                                <span class="ml-1 text-green-500">12%</span>
+                                <span class="ml-2">from last month</span>
+                            </div>
+                        </div>
+            
+                        <!-- Delivered Card -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex items-center space-x-4">
+                                <span class="p-3 bg-green-100 rounded-lg">
+                                    <span class="material-symbols-outlined text-green-600">local_shipping</span>
+                                </span>
+                                <div>
+                                    <p class="text-sm">Delivered</p>
+                                    <p class="text-2xl font-bold">987</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="material-symbols-outlined text-green-500">trending_up</span>
+                                <span class="ml-1 text-green-500">8%</span>
+                                <span class="ml-2">from last month</span>
+                            </div>
+                        </div>
+            
+                        <!-- Pending Card -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex items-center space-x-4">
+                                <span class="p-3 bg-yellow-100 rounded-lg">
+                                    <span class="material-symbols-outlined text-yellow-600">pending</span>
+                                </span>
+                                <div>
+                                    <p class="text-sm">Pending</p>
+                                    <p class="text-2xl font-bold">145</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="material-symbols-outlined text-red-500">trending_down</span>
+                                <span class="ml-1 text-red-500">3%</span>
+                                <span class="ml-2">from last month</span>
+                            </div>
+                        </div>
+            
+                        <!-- Cancelled Card -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex items-center space-x-4">
+                                <span class="p-3 bg-red-100 rounded-lg">
+                                    <span class="material-symbols-outlined text-red-600">error</span>
+                                </span>
+                                <div>
+                                    <p class="text-sm">Cancelled</p>
+                                    <p class="text-2xl font-bold">24</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="material-symbols-outlined text-green-500">trending_down</span>
+                                <span class="ml-1 text-green-500">2%</span>
+                                <span class="ml-2">from last month</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Recent Orders Table -->
+                <div class="bg-white p-6 rounded-lg shadow mt-6">
+                    <h3 class="text-lg font-semibold mb-4">Recent Orders</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50">
+                                    <th class="p-3 text-left">Order ID</th>
+                                    <th class="p-3 text-left">Customer</th>
+                                    <th class="p-3 text-left">Status</th>
+                                    <th class="p-3 text-right">Amount</th>
+                                    <th class="p-3 text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-t">
+                                    <td class="p-3">#ORD-2023-1234</td>
+                                    <td class="p-3">John Doe</td>
+                                    <td class="p-3">
+                                        <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full">Processing</span>
+                                    </td>
+                                    <td class="p-3 text-right">$219.97</td>
+                                    <td class="p-3 text-center">
+                                        <button class="p-2 hover:bg-gray-100 rounded-lg">View</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

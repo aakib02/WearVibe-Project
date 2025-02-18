@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Product</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+        }
+        .drag-over {
+            border-color: #3b82f6 !important;
+            background-color: #eff6ff;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen p-4">
+    <div class="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-2xl font-bold text-center mb-6">Create Product</h2>
+        <form id="productForm" class="space-y-4">
+            <div class="relative">
+                <input type="text" id="productName" placeholder="Product Name" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none" required>
+            </div>
+
+            <textarea id="description" placeholder="Description" class="w-full border border-gray-300 rounded-lg px-4 py-3 h-24 focus:ring-2 focus:ring-blue-500 outline-none" required></textarea>
+
+            <div class="grid grid-cols-2 gap-4">
+                <input type="number" id="price" placeholder="Price" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none" required>
+                <input type="number" id="discount" placeholder="Discount (%)" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+            <input type="number" id="finalPrice" placeholder="Final Price" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none" required readonly>
+            <div class="grid grid-cols-2 gap-4">
+                <select id="category" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none" required>
+                    <option value="">Select Category</option>
+                    <option value="Men">Men</option>
+                    <option value="Women">Women</option>
+                    <option value="Kids">Kids</option>
+                    <option value="Couple">Couple</option>
+                </select>
+                <select id="brand" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none" >
+                </select>
+            </div>
+
+            <div class="relative">
+                <select id="sizes" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none" required>
+                    <option value="">Select Size</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                </select>
+            </div>
+
+            <input type="text" id="colors" placeholder="Colors (comma-separated)" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none">
+            
+            <input type="number" id="stock" placeholder="Stock" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none" required>
+
+            <!-- Drag & Drop Upload Section -->
+            <label for="fileInput">
+                <div id="dropArea" class="mt-4 border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 transition">
+                    <span class="material-symbols-outlined text-4xl text-gray-400">cloud_upload</span>
+                    <p class="mt-2">Drop images here or click to upload</p>
+                    <input type="file" id="fileInput" multiple class="hidden">
+                </div>
+            </label>
+            <div id="preview" class="grid grid-cols-3 gap-2 mt-2"></div>
+
+            <!-- <input type="number" id="ratings" placeholder="Ratings (0-5)" min="0" max="5" step="0.1" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"> -->
+
+            <button type="submit" class=" w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transform hover:scale-[1.02] transition">
+                Create Product
+            </button>
+        </form>
+    </div>
+
+    <script src="js/form.js"></script>
+</body>
+</html>

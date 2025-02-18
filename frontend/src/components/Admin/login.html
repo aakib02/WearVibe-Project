@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center min-h-screen p-4">
+    <div class="max-w-md w-full bg-white rounded-2xl shadow-xl p-6 transform hover:scale-[1.02] transition-all">
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl font-bold mb-2">Welcome Back</h1>
+            <p class="text-gray-600">Sign in to continue</p>
+        </div>
+
+        <form id="loginForm" class="space-y-6">
+            <div class="space-y-2">
+                <label class="text-sm font-medium" for="email">Email</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="material-symbols-outlined text-gray-400">mail</span>
+                    </span>
+                    <input
+                        type="email"
+                        id="email"
+                        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                        placeholder="Enter your email"
+                        required
+                    />
+                </div>
+                <p id="emailError" class="text-red-500 text-sm mt-1 hidden">Please enter a valid email.</p>
+            </div>
+            
+            <div class="space-y-2">
+                <label class="text-sm font-medium" for="password">Password</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="material-symbols-outlined text-gray-400">lock</span>
+                    </span>
+                    <input
+                        type="password"
+                        id="password"
+                        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                        placeholder="Enter your password"
+                        required
+                    />
+                </div>
+                <p id="passwordError" class="text-red-500 text-sm mt-1 hidden">Invalid password.</p>
+            </div>
+            
+
+            <div class="flex items-center justify-between">
+                <label class="flex items-center">
+                    <input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+                    <span class="ml-2 text-sm">Remember me</span>
+                </label>
+                <a href="#" class="text-sm text-blue-600 hover:text-blue-700 hover:underline">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transform hover:scale-[1.02] transition-all">
+                Sign In
+            </button>
+
+            <div class="relative py-3">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3">
+                <button type="button" class="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transform hover:scale-[1.02] transition-all">
+                    <i class="fa-brands fa-google text-xl"></i>
+                </button>
+                <button type="button" class="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transform hover:scale-[1.02] transition-all">
+                    <i class="fa-brands fa-facebook text-xl"></i>
+                </button>
+                <button type="button" class="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transform hover:scale-[1.02] transition-all">
+                    <i class="fa-brands fa-apple text-xl"></i>
+                </button>
+            </div>
+
+            <p class="text-center text-sm">
+                Don't have an account?
+                <a href="#" class="text-blue-600 hover:text-blue-700 hover:underline ml-1">Sign up</a>
+            </p>
+        </form>
+    </div>
+
+
+    <script src="js/login.js"></script>
+</body>
+</html>

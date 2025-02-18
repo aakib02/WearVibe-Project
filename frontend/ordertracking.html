@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Tracking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 font-sans">
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="flex items-center justify-between px-8 py-4">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-bold">WearVibe</h1>
+                <div class="relative group">
+                    <span class="material-symbols-outlined absolute left-3 top-2.5">search</span>
+                    <input type="search" placeholder="Search fashion..."
+                        class="pl-10 pr-4 py-2 border rounded-lg w-64" />
+                </div>
+            </div>
+            <div class="flex items-center space-x-6">
+                <div class="relative">
+                    <button id="avatarButton"
+                        class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 cursor-pointer">
+                        <i class="fas fa-user text-gray-600 text-lg"></i>
+                    </button>
+
+                    <!-- Dropdown menu -->
+                    <div id="userDropdown" class="absolute right-0 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-lg hidden">
+                        <a href="myprofile.html" class="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-100 transition-colors">
+                            <div>Bonnie Green</div>
+                            <div class="font-medium truncate">name@flowbite.com</div>
+                        </a>
+                        <ul class="py-2 text-sm text-gray-700">
+                            <li>
+                                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Order</a>
+                            </li>
+                            <li>
+                                <a href="wishlist.html" class="block px-4 py-2 hover:bg-gray-100">Wishlist</a>
+                            </li>
+                            <li>
+                                <a href="addtocart.html" class="block px-4 py-2 hover:bg-gray-100">Shopping Cart</a>
+                            </li>
+                        </ul>
+                        <div class="py-1">
+                            <a href="/src/components/Admin/login.html"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <span class="material-symbols-outlined cursor-pointer" id="favorite-icon">favorite</span>
+                    <span
+                        class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center"
+                        id="favorite-count">0</span>
+                </div>
+                <div class="relative">
+                    <span class="material-symbols-outlined cursor-pointer" id="cart-icon">shopping_cart</span>
+                    <span
+                        class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center"
+                        id="cart-count">0</span>
+                </div>
+            </div>
+        </nav>
+        <div class="flex justify-center space-x-8 py-4 border-t">
+            <a href="mens.html" class="hover:underline">Men</a>
+            <a href="#" class="hover:underline">Women</a>
+            <a href="#" class="hover:underline">Kids</a>
+        </div>
+    </header>
+
+    <div id="webcrumbs" class="flex justify-center p-4">
+        <div class="w-full max-w-[1800px] bg-white rounded-lg shadow-lg p-8">
+            <div class="flex items-center justify-between mb-8">
+                <h1 class="text-2xl font-bold">Order Tracking</h1>
+                <div class="flex items-center space-x-2">
+                    <span class="material-symbols-outlined">local_shipping</span>
+                    <p>Order #123456</p>
+                </div>
+            </div>
+
+            <div class="relative">
+                <div class="h-2 bg-gray-200 rounded-full mb-8">
+                    <div class="h-2 bg-green-500 rounded-full w-3/4 transition-all duration-500"></div>
+                </div>
+
+                <div class="flex justify-between mb-12">
+                    <div class="flex flex-col items-center transform hover:scale-105 transition-transform">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mb-2">
+                            <span class="material-symbols-outlined text-white">shopping_cart</span>
+                        </div>
+                        <p class="text-sm font-medium">Order Placed</p>
+                        <p class="text-xs text-gray-500">May 1, 2023</p>
+                    </div>
+
+                    <div class="flex flex-col items-center transform hover:scale-105 transition-transform">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mb-2">
+                            <span class="material-symbols-outlined text-white">inventory_2</span>
+                        </div>
+                        <p class="text-sm font-medium">Processing</p>
+                        <p class="text-xs text-gray-500">May 2, 2023</p>
+                    </div>
+
+                    <div class="flex flex-col items-center transform hover:scale-105 transition-transform">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mb-2">
+                            <span class="material-symbols-outlined text-white">local_shipping</span>
+                        </div>
+                        <p class="text-sm font-medium">Shipped</p>
+                        <p class="text-xs text-gray-500">May 3, 2023</p>
+                    </div>
+
+                    <div class="flex flex-col items-center transform hover:scale-105 transition-transform">
+                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mb-2">
+                            <span class="material-symbols-outlined">home</span>
+                        </div>
+                        <p class="text-sm font-medium">Delivered</p>
+                        <p class="text-xs text-gray-500">Expected May 5</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-lg p-6 hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold">Shipping Details</h2>
+                        <span class="material-symbols-outlined">location_on</span>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-sm">John Doe</p>
+                        <p class="text-sm">123 Main Street</p>
+                        <p class="text-sm">New York, NY 10001</p>
+                        <p class="text-sm">United States</p>
+                    </div>
+                </div>
+
+                <details class="mt-6 group">
+                    <summary
+                        class="flex items-center justify-between cursor-pointer p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <span class="font-medium">Package Details </span>
+                        <span
+                            class="material-symbols-outlined transform group-open:rotate-180 transition-transform">expand_more</span>
+                    </summary>
+                    <div class="p-4 bg-white border-t">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-16 h-16 bg-gray-100 rounded-lg"></div>
+                                <div>
+                                    <p class="font-medium">Product Name</p>
+                                    <p class="text-sm text-gray-500">Quantity: 1</p>
+                                </div>
+                            </div>
+                            <p class="font-medium">$99.99</p>
+                        </div>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 text-white mt-12">
+        <div class="max-w-7xl mx-auto px-6 py-12">
+            <div class="grid grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About Us</h3>
+                    <p class="text-gray-400">WearVibe is your destination for trendy and comfortable clothing.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/src/components/Admin/requestforproduct.html"
+                                class="text-gray-400 hover:text-white transition-colors">Sell Your Product</a></li>
+                        <li><a href="/shop" class="text-gray-400 hover:text-white transition-colors">Shop</a></li>
+                        <li><a href="contactquery.html"
+                                class="text-gray-400 hover:text-white transition-colors">Help</a></li>
+                        <li><a href="/faq" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>123 Fashion Street</li>
+                        <li>Style City, SC 12345</li>
+                        <li>contact@wearvibe.com</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-blue-400 transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="hover:text-blue-400 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="hover:text-blue-400 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="xyz.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const avatarButton = document.getElementById("avatarButton");
+            const userDropdown = document.getElementById("userDropdown");
+
+            avatarButton.addEventListener("click", function () {
+                userDropdown.classList.toggle("hidden");
+            });
+
+            document.addEventListener("click", function (event) {
+                if (!avatarButton.contains(event.target) && !userDropdown.contains(event.target)) {
+                    userDropdown.classList.add("hidden");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

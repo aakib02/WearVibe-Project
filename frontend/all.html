@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WearVibe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Open Sans', sans-serif; }
+        .sidebar {
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+            width: 220px; /* Reduced width */
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%; /* Full width on small screens */
+                position: relative; /* Change position */
+                height: auto; /* Auto height */
+            }
+            main {
+                margin-left: 0; /* Remove left margin */
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="flex items-center justify-between px-8 py-4">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-bold">WearVibe</h1>
+                <div class="relative group">
+                    <span class="material-symbols-outlined absolute left-3 top-2.5" >search</span>
+                    <input type="search" placeholder="Search fashion..." class="pl-10 pr-4 py-2 border rounded-lg w-64" id="search"/>
+                </div>
+            </div>
+            <div class="flex items-center space-x-6">
+                <div class="relative">
+                    <button id="avatarButton" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 cursor-pointer">
+                        <i class="fas fa-user text-gray-600 text-lg"></i>
+                    </button>
+                    
+                    <!-- Dropdown menu -->
+                    <div id="userDropdown" class="absolute right-0 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-lg hidden">
+                        <div class="px-4 py-3 text-sm text-gray-900">
+                            <div id="profile"></div>
+                            <div id="userMail" class="font-medium truncate"></div>
+                        </div>
+                        <ul class="py-2 text-sm text-gray-700">
+                            <li>
+                                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Orders</a>
+                            </li>
+                            <li>
+                                <a href="wishlist.html" class="block px-4 py-2 hover:bg-gray-100">Wishlist</a>
+                            </li>
+                            <li>
+                                <a href="addToCart.html" class="block px-4 py-2 hover:bg-gray-100">Shopping Cart</a>
+                            </li>
+                            
+                        </ul>
+                        <div class="py-1">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <a href="wishlist.html">
+                    <span class="material-symbols-outlined cursor-pointer" id="favorite-icon">favorite</span>
+                    <span class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center" id="favorite-count">0</span>
+                </a>
+                </div>
+                <div class="relative">
+                    <a href="addToCart.html">
+                    <span class="material-symbols-outlined cursor-pointer" id="cart-icon">shopping_cart</span>
+                    <span class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center" id="cart-count">0</span>
+                </a>
+                </div>
+            </div>
+        </nav>
+        <div class="flex justify-center space-x-8 py-4 border-t">
+            <!-- <a class="hover:underline cursor-pointer">Men</a>
+            <a class="hover:underline cursor-pointer">Women</a>
+            <a class="hover:underline cursor-pointer">Kids</a> -->
+            <ul id="nav-links" class="flex space-x-4"></ul>
+        </div>
+    </header>
+
+<div class="flex">
+        <aside class="w-64 bg-white shadow-sm p-6 space-y-6 h-[calc(100vh-80px)] sticky top-20 overflow-y-auto">
+            <div class="space-y-3 mb-6">
+                <h3 class="font-semibold">Categories</h3>
+                <div class="space-y-2" id="categoryFilters">
+                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition-colors">
+                        <input type="radio" name="clothes" class="w-4 h-4 rounded text-blue-500" value="all" checked />
+                        All
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition-colors">
+                        <input type="radio" name="clothes" class="w-4 h-4 rounded text-blue-500" value="Men" />
+                        Men
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition-colors">
+                        <input type="radio" name="clothes" class="w-4 h-4 rounded text-blue-500" value="Women" />
+                        Women
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition-colors">
+                        <input type="radio" name="clothes" class="w-4 h-4 rounded text-blue-500" value="Kids" />
+                        Kids
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition-colors">
+                        <input type="radio" name="clothes" class="w-4 h-4 rounded text-blue-500" value="Couple" />
+                        Couple
+                    </label>                
+                </div>
+            </div>
+            <!-- <div id="product-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+           
+            </div> -->
+
+
+            <div class="space-y-3">
+                <h3 class="font-semibold">Price Range</h3>
+                <input type="range" id="priceRange" class="w-full accent-blue-500" min="0" max="100000" value="100000"/>
+                <div class="flex justify-between text-sm">
+                    <span>₹0</span>
+                    <span id="maxPriceLabel">₹100000</span>
+                </div>
+            </div>
+            
+
+            <div class="space-y-3">
+                <h3 class="font-semibold">Colors</h3>
+                <input type="text" id="colorSearch" placeholder="Search colo₹.." class="border rounded-lg p-2 w-full" />
+                <div class="flex flex-wrap gap-2 mt-2" id="colorOptions">
+                    <button class="w-8 h-8 rounded-full bg-red-500 ring-2 ring-offset-2 ring-transparent hover:ring-red-200 transition-all"></button>
+                    <button class="w-8 h-8 rounded-full bg-blue-500 ring-2 ring-offset-2 ring-transparent hover:ring-blue-200 transition-all"></button>
+                    <button class="w-8 h-8 rounded-full bg-green-500 ring-2 ring-offset-2 ring-transparent hover:ring-green-200 transition-all"></button>
+                    <button class="w-8 h-8 rounded-full bg-yellow-500 ring-2 ring-offset-2 ring-transparent hover:ring-yellow-200 transition-all"></button>
+                    <button class="w-8 h-8 rounded-full bg-purple-500 ring-2 ring-offset-2 ring-transparent hover:ring-purple-200 transition-all"></button>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <h3 class="font-semibold">Brands</h3>
+                <input type="text" id="brandSearch" placeholder="Search brands..." class="border rounded-lg p-2 w-full" />
+                <div class="space-y-2 mt-2" id="brandOptions">
+                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition-colors">
+                        <input type="checkbox" class="w-4 h-4 rounded text-blue-500" />
+                        Nike
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition-colors">
+                        <input type="checkbox" class="w-4 h-4 rounded text-blue-500" />
+                        Adidas
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition-colors">
+                        <input type="checkbox" class="w-4 h-4 rounded text-blue-500" />
+                        Puma
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition-colors">
+                        <input type="checkbox" class="w-4 h-4 rounded text-blue-500" />
+                        Reebok
+                    </label>
+                </div>
+            </div>
+        </aside>
+        <main class="flex-1 p-8 bg-gray-50">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="product-grid">
+                <!-- Products will be dynamically inserted here -->
+            </div>
+        </main>
+     </div> 
+      
+   
+     <footer class="bg-gray-900 text-white mt-12">
+        <div class="max-w-7xl mx-auto px-6 py-12">
+            <div class="grid grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About Us</h3>
+                    <p class="text-gray-400">WearVibe is your destination for trendy and comfortable clothing.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="reqVendorForm.html" class="text-gray-400 hover:text-white transition-colors">Request seller</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Shop</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Help</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+                        <li><a href="contactquery.html" class="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Customer Policies</h3>
+                    <ul class="space-y-2">
+                        <li><a href="privacypolicy.html" class="text-gray-400 hover:text-white transition-colors">Return Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms & Condition</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Track Order</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Shipping</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Cancellation</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>123 Fashion Street</li>
+                        <li>Style City, SC 12345</li>
+                        <li>contact@wearvibe.com</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-blue-400 transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="hover:text-blue-400 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="hover:text-blue-400 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+<script src="all.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WearVibe Vendor Dashboard - Payouts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <style>
+        body { font-family: 'Open Sans', sans-serif; }
+        .shadow-custom { box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); }
+        /* Custom Tailwind slider styles */
+        .peer:checked ~ .dot { transform: translateX(1.5rem); }
+        .peer:checked ~ .text-green-500 { color: #48bb78; }
+        .peer:not(:checked) ~ .text-red-500 { color: #f56565; }
+        .peer:checked ~ .text-red-500 { color: transparent; }
+        .peer:not(:checked) ~ .text-green-500 { color: transparent; }
+        .slider { position: relative; display: block; width: 100%; height: 100%; border-radius: 9999px; background-color: #e2e8f0; transition: background-color 0.3s ease; }
+        .dot { position: absolute; left: 0; top: 0; width: 1.5rem; height: 1.5rem; background-color: #ffffff; border-radius: 50%; transition: transform 0.3s ease; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <header class="flex items-center justify-between px-8 py-5 bg-white shadow-lg backdrop-blur-sm bg-opacity-90">
+        <div class="flex items-center gap-3 hover:opacity-80 transition-all cursor-pointer">
+            <span class="material-symbols-outlined text-4xl">store</span>
+            <h1 class="text-2xl font-bold">WearVibe</h1>
+        </div>
+        
+        <div class="flex items-center gap-8">
+            <div class="relative group">
+                <span class="material-symbols-outlined text-3xl group-hover:text-blue-500 transition-colors cursor-pointer">notifications</span>
+                <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-white text-xs flex items-center justify-center animate-pulse">3</span>
+            </div>
+            <details class="relative">
+                <summary class="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-all list-none">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="profile" class="w-10 h-10 rounded-full ring-2 ring-gray-200" />
+                    <span class="material-symbols-outlined">expand_more</span>
+                </summary>
+                <div class="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-xl py-2 z-10 ring-1 ring-gray-200">
+                    <a class="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors">
+                        <span class="material-symbols-outlined">account_circle</span>
+                        Account Settings
+                    </a>
+                    <a id="logout-btn" class="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors cursor-pointer">
+                        <span class="material-symbols-outlined">logout</span>
+                        Logout
+                    </a>
+                </div>
+            </details>
+        </div>
+    </header>
+
+    <div class="flex flex-1">
+        <aside class="w-64 bg-white shadow-sm p-4 hidden sm:block">
+            <nav class="space-y-2">
+                <a href="vendordash.html" class="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                    <span class="material-symbols-outlined">dashboard</span> Dashboard Overview
+                </a>
+                
+                <a href="productmanage.html" class="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                    <span class="material-symbols-outlined">inventory_2</span> Products Management
+                </a>
+                
+                <a href="orderdashboard.html" class="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                    <span class="material-symbols-outlined">local_shipping</span> Orders & Shipments
+                </a>
+                
+                <a href="salesanalytics.html" class="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                    <span class="material-symbols-outlined">analytics</span> Sales Analytics
+                </a>
+                
+                <a href="customermanagement.html" class="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                    <span class="material-symbols-outlined">group</span> Customer Management
+                </a>
+                
+                <a href="vendorsettings.html" class="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                    <span class="material-symbols-outlined">settings</span> Settings
+                </a>
+                
+            </nav>
+        </aside>
+    
+        <!-- Main Content -->
+        <main class="flex-1 p-8">
+            <h2 class="text-3xl font-semibold mb-6">Vendor Settings</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Profile Section -->
+                <section class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined">account_circle</span> Profile & Account
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="#" class="w-20 h-20 rounded-full">
+                            <button class="bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200 transition">Change Photo</button>
+                        </div>
+                        <input type="text" id="business-name" class="w-full p-3 border rounded-lg" placeholder="Business Name">
+                        <button id="save-profile" class="w-full bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600">Save Profile</button>
+                    </div>
+                </section>
+                
+                <!-- Store Settings -->
+                <section class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined">storefront</span> Store Settings
+                    </h3>
+                    <input type="text" id="store-url" class="w-full p-3 border rounded-lg" placeholder="Store URL">
+                    <select id="store-hours" class="w-full p-3 border rounded-lg mt-4">
+                        <option>24/7</option>
+                        <option>Custom Hours</option>
+                    </select>
+                    <button id="update-store" class="w-full bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 mt-4">Update Store</button>
+                </section>
+
+                <!-- Security & Settings Section -->
+                <section class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="material-symbols-outlined text-2xl">security</span>
+                        <h3 class="text-xl font-semibold">Security & Settings</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block mb-2 font-medium">Email</label>
+                            <input type="email" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-500 transition" placeholder="Enter Your Email">
+                        </div>
+                        <div>
+                            <label class="block mb-2 font-medium">Change Password</label>
+                            <input type="password" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-500 transition" placeholder="Enter new password">
+                        </div>
+                        <button class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition w-full">
+                            Save Details
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Payout Requests Section -->
+                <div class="bg-white p-6 rounded-xl shadow-custom mb-6">
+                    <h3 class="text-xl font-semibold mb-2">Current Wallet Balance</h3>
+                    <p class="text-2xl font-bold text-green-600">&#8377; <span id="wallet-balance">0.00</span></p>
+                    <button id="request-payout" class="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg">Request Payout</button>
+                    <p class="text-sm text-gray-500 mt-2">Minimum withdrawal limit: &#8377; 500</p>
+                </div>
+
+                <!-- Payout History -->
+                <div class="bg-white p-6 rounded-xl shadow-custom mb-6">
+                    <h3 class="text-xl font-semibold mb-4">Payout History</h3>
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="p-3 border">Date</th>
+                                <th class="p-3 border">Amount</th>
+                                <th class="p-3 border">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payout-history">
+                            <tr><td colspan="3" class="p-3 text-center">No payout requests found.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tax & Compliance Settings -->
+                <div class="bg-white p-6 rounded-xl shadow-custom mb-6">
+                    <h3 class="text-xl font-semibold mb-4">Tax & Compliance</h3>
+                    <input type="text" id="gst-number" class="w-full p-3 border rounded-lg mb-3" placeholder="GSTIN/VAT Number">
+                    <input type="text" id="pan-number" class="w-full p-3 border rounded-lg mb-3" placeholder="PAN/TIN Details">
+                    <label class="block mb-2">Upload Digital Signature</label>
+                    <input type="file" id="digital-signature" class="w-full p-3 border rounded-lg mb-3">
+                    <button id="save-tax-details" class="w-full bg-blue-500 text-white px-6 py-3 rounded-lg">Save Tax Details</button>
+                </div>
+
+                <!-- Bank & UPI Details -->
+                <div class="bg-white p-6 rounded-xl shadow-custom mb-6">
+                    <h3 class="text-xl font-semibold mb-4">Bank & UPI Details</h3>
+                    <input type="text" id="account-name" class="w-full p-3 border rounded-lg mb-3" placeholder="Account Holder Name">
+                    <input type="text" id="bank-name" class="w-full p-3 border rounded-lg mb-3" placeholder="Bank Name">
+                    <input type="text" id="account-number" class="w-full p-3 border rounded-lg mb-3" placeholder="Account Number" maxlength="12" onkeypress="return isNumberKey(event)">
+                    <input type="text" id="ifsc-code" class="w-full p-3 border rounded-lg mb-3" placeholder="IFSC Code" maxlength="11">
+                    <input type="text" id="upi-id" class="w-full p-3 border rounded-lg mb-3" placeholder="UPI ID" maxlength="10">
+                    <button id="save-bank-details" class="w-full bg-blue-500 text-white px-6 py-3 rounded-lg">Save Bank Details</button>
+                </div>
+
+                <!-- Transaction History & Sales Report -->
+                <div class="bg-white p-6 rounded-xl shadow-custom mb-6">
+                    <h3 class="text-xl font-semibold mb-4">Transaction History & Sales Report</h3>
+                    <label class="block mb-2">Filter by Date Range</label>
+                    <input type="date" id="start-date" class="p-3 border rounded-lg mb-3">
+                    <input type="date" id="end-date" class="p-3 border rounded-lg mb-3">
+                    
+                    <button id="download-report" class="ml-3 bg-green-500 text-white px-6 py-2 rounded-lg">Download CSV/PDF</button>
+                    <h4 class="text-lg font-semibold mt-4">Monthly Earnings Overview</h4>
+                    <p class="text-2xl font-bold text-gray-700">&#8377; <span id="monthly-earnings">0.00</span></p>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        $(document).ready(function() {
+            // Load wallet balance and payout history from local storage
+            let walletBalance = localStorage.getItem("walletBalance") || 0;
+            let payoutHistory = JSON.parse(localStorage.getItem("payoutHistory")) || [];
+            $("#wallet-balance").text(walletBalance);
+            renderPayoutHistory();
+
+            // Load other form data from local storage
+            $("#gst-number").val(localStorage.getItem("gstNumber") || "");
+            $("#pan-number").val(localStorage.getItem("panNumber") || "");
+            $("#account-name").val(localStorage.getItem("accountName") || "");
+            $("#bank-name").val(localStorage.getItem("bankName") || "");
+            $("#account-number").val(localStorage.getItem("accountNumber") || "");
+            $("#ifsc-code").val(localStorage.getItem("ifscCode") || "");
+            $("#upi-id").val(localStorage.getItem("upiId") || "");
+            $("#start-date").val(localStorage.getItem("startDate") || "");
+            $("#end-date").val(localStorage.getItem("endDate") || "");
+            $("#business-name").val(localStorage.getItem("businessName") || "");
+
+            // Request payout button click event
+            $("#request-payout").click(function() {
+                let amount = prompt("Enter payout amount:");
+                if (amount && amount >= 500 && amount <= walletBalance) {
+                    walletBalance -= amount;
+                    payoutHistory.push({ date: new Date().toLocaleDateString(), amount, status: "Pending" });
+                    localStorage.setItem("walletBalance", walletBalance);
+                    localStorage.setItem("payoutHistory", JSON.stringify(payoutHistory));
+                    location.reload();
+                } else {
+                    alert("Invalid amount or insufficient balance. Minimum withdrawal limit is ₹500.");
+                }
+            });
+
+            // Render payout history
+            function renderPayoutHistory() {
+                let historyHtml = payoutHistory.map(p => `<tr><td class='p-3 border'>${p.date}</td><td class='p-3 border'>&#8377;${p.amount}</td><td class='p-3 border'>${p.status}</td></tr>`).join("");
+                $("#payout-history").html(historyHtml || "<tr><td colspan='3' class='p-3 text-center'>No payout requests found.</td></tr>");
+            }
+
+            // Save profile details
+            $("#save-profile").click(function() {
+                let businessName = $("#business-name").val();
+                // Validation
+                if (!businessName) {
+                    alert("Business Name is required.");
+                    return;
+                }
+                localStorage.setItem("businessName", businessName);
+                alert("Profile details saved successfully!");
+            });
+
+            // Save store settings
+            $("#update-store").click(function() {
+                let storeUrl = $("#store-url").val();
+                let storeHours = $("#store-hours").val();
+                // Validation
+                if (!storeUrl) {
+                    alert("Store URL is required.");
+                    return;
+                }
+                localStorage.setItem("storeUrl", storeUrl);
+                localStorage.setItem("storeHours", storeHours);
+                alert("Store settings updated successfully!");
+            });
+
+            // Save tax details
+            $("#save-tax-details").click(function() {
+                let gstNumber = $("#gst-number").val();
+                let panNumber = $("#pan-number").val();
+                localStorage.setItem("gstNumber", gstNumber);
+                localStorage.setItem("panNumber", panNumber);
+                alert("Tax details saved successfully!");
+            });
+
+            // Save bank details
+            $("#save-bank-details").click(function() {
+                let accountName = $("#account-name").val();
+                let bankName = $("#bank-name").val();
+                let accountNumber = $("#account-number").val();
+                let ifscCode = $("#ifsc-code").val();
+                let upiId = $("#upi-id").val();
+
+                // Validation
+                if (!accountName || !bankName || !accountNumber || !ifscCode || !upiId) {
+                    alert("All bank details are required.");
+                    return;
+                }
+
+                // Validate account number (12 digits)
+                if (!/^\d{12}$/.test(accountNumber)) {
+                    alert("Account Number must be exactly 12 digits.");
+                    return;
+                }
+
+                // Validate IFSC code (11 characters: 1 letter, 0, 9 alphanumeric)
+                if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifscCode)) {
+                    alert("IFSC Code must be 11 characters long, starting with 4 letters followed by 0 and 6 alphanumeric characters.");
+                    return;
+                }
+
+                // Validate UPI ID (8-10 alphanumeric)
+                if (!/^[a-zA-Z0-9]{8,10}$/.test(upiId)) {
+                    alert("UPI ID must be 8 to 10 alphanumeric characters.");
+                    return;
+                }
+
+                localStorage.setItem("accountName", accountName);
+                localStorage.setItem("bankName", bankName);
+                localStorage.setItem("accountNumber", accountNumber);
+                localStorage.setItem("ifscCode", ifscCode);
+                localStorage.setItem("upiId", upiId);
+                alert("Bank details saved successfully!");
+            });
+
+            // Save date range for transaction history
+            $("#download-report").click(function() {
+                let startDate = $("#start-date").val();
+                let endDate = $("#end-date").val();
+                localStorage.setItem("startDate", startDate);
+                localStorage.setItem("endDate", endDate);
+                alert("Date range saved successfully!");
+            });
+
+            // Function to allow only numeric input
+            window.isNumberKey = function(evt) {
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }
+                return true;
+            };
+        });
+    </script>
+</body>
+</html>
