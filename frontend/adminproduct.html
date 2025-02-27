@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WearVibe Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 16rem; 
+            height: 100vh; 
+            z-index: 10;
+            background-color: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #sidebar li {
+            padding: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #sidebar li:hover {
+            background-color: #f0f0f0;
+        }
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 20;
+        }
+
+        /* Content */
+        .content {
+            margin-left: 16rem;
+            padding: 2rem;
+            transition: margin-left 0.3s ease;
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            #sidebar {
+                display: none;
+            }
+
+            #sidebar.active {
+                display: block;
+            }
+
+            .hamburger {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                left: 1rem;
+                font-size: 2rem;
+                z-index: 20;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+
+            .content.active {
+                margin-left: 16rem;
+            }
+
+            .header {
+                padding-left: 2rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="hidden md:block">
+        <div class="p-6">
+            <h2 class="text-xl font-bold mb-8">WearVibe</h2>
+            <ul>
+               
+                <li>
+                    <a href="admindash.html" class="flex items-center">
+                        <span class="material-symbols-outlined mr-2">dashboard</span> Overview
+                    </a>
+                    <!-- Dropdown Sub-Menu -->
+                    <ul class="ml-6 hidden" id="overviewDropdown">
+                        <li><a href="vendordash.html">Vendor Dashboard</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="adminproduct.html" class="flex items-center"><span class="material-symbols-outlined mr-2">inventory</span> Products</a></li>
+                <li><a href="adminorders.html" class="flex items-center"><span class="material-symbols-outlined mr-2">shopping_cart</span> Orders</a></li>
+                <li><a href="/frontend/vendorApproval.html" class="flex items-center"><span class="material-symbols-outlined mr-2">check_circle</span> Approval</a></li>
+                
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Hamburger menu -->
+        <div class="hamburger md:hidden" onclick="toggleSidebar()">☰</div>
+
+        <header class="bg-white shadow-sm p-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="addproductform.html">
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined align-middle mr-2">add</span>
+                        Add Product
+                    </button>
+                </a>
+                <a href="#">
+                    <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined">upload_file</span>
+                        Bulk Upload
+                    </button>
+                </a>
+            </div>
+            <div class="flex items-center space-x-6">
+                <details class="relative">
+                    <summary class="list-none cursor-pointer">
+                        <span class="material-symbols-outlined p-2 hover:bg-gray-100 rounded-full transition-all">notifications</span>
+                    </summary>
+                    <div class="absolute right-0 w-80 bg-white shadow-lg rounded-lg mt-2 z-50">
+                        <h3 class="font-semibold mb-2 p-4">Alerts</h3>
+                        <div class="space-y-2 p-4">
+                            <div class="p-2 hover:bg-red-50 rounded transition-all flex items-center gap-2">
+                                <span class="material-symbols-outlined text-red-500">warning</span>
+                                Low stock alert: 5 products
+                            </div>
+                            <div class="p-2 hover:bg-yellow-50 rounded transition-all flex items-center gap-2">
+                                <span class="material-symbols-outlined text-yellow-500">star</span>
+                                New product review
+                            </div>
+                        </div>
+                    </div>
+                </details>
+                
+                <details class="relative">
+                    <summary class="list-none cursor-pointer flex items-center">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User " alt="Admin" class="w-8 h-8 rounded-full" />
+                    </summary>
+                    <div class="absolute right-0 w-48 bg-white shadow-lg rounded-lg mt-2 z-50">
+                        <div class="p-2 hover:bg-gray-50 cursor-pointer transition-all">
+                            <a href="adminedit.html" class="block">Profile</a>
+                        </div>
+                        <div class="p-2 hover:bg-gray-50 cursor-pointer transition-all">
+                            <a href="#" onclick="showLogoutModal()" class="block">Logout</a>
+                          </div>
+                          
+                          <!-- Logout Confirmation Modal -->
+                          <div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden z-50">
+                            <div class="bg-white rounded-2xl shadow-lg p-6 w-full max-w-sm">
+                              <h2 class="text-xl font-semibold text-center mb-4">Are you sure you want to logout?</h2>
+                              <div class="flex justify-between gap-4">
+                                <button onclick="logout()" class="w-full bg-red-500 text-white py-2 rounded-lg">OK</button>
+                                <button onclick="hideLogoutModal()" class="w-full bg-gray-300 text-gray-800 py-2 rounded-lg">Cancel</button>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                </details>
+            </div>
+        </header>
+        
+        <main class="p-6">
+            <div class="p-8">
+                <div class="grid grid-cols-4 gap-6 mb-8">
+                    <div class="bg-blue-50 p-6 rounded-xl hover:shadow-lg transition-all transform hover:-translate-y-1">
+                        <span class="material-symbols-outlined text-4xl text-blue-500">inventory_2</span>
+                        <h3 class="text-lg font-semibold mt-4">Total Products</h3>
+                        <p class="text-2xl font-bold mt-2">1,234</p>
+                        <p class="text-sm text-gray-600 mt-2">+12% from last month</p>
+                    </div>
+                    <div class="bg-green-50 p-6 rounded-xl hover:shadow-lg transition-all transform hover:-translate-y-1">
+                        <span class="material-symbols-outlined text-4xl text-green-500">trending_up</span>
+                        <h3 class="text-lg font-semibold mt-4">Active Products</h3>
+                        <p class="text-2xl font-bold mt-2">987</p>
+                        <p class="text-sm text-gray-600 mt-2">80% of total products</p>
+                    </div>
+                    <div class="bg-red-50 p-6 rounded-xl hover:shadow-lg transition-all transform hover:-translate-y-1">
+                        <span class="material-symbols-outlined text-4xl text-red-500">warning</span>
+                        <h3 class="text-lg font-semibold mt-4">Low Stock</h3>
+                        <p class="text-2xl font-bold mt-2">45</p>
+                        <p class="text-sm text-gray-600 mt-2">Needs immediate attention</p>
+                    </div>
+                    <div class="bg-yellow-50 p-6 rounded-xl hover:shadow-lg transition-all transform hover:-translate-y-1">
+                        <span class="material-symbols-outlined text-4xl text-yellow-500">star</span>
+                        <h3 class="text-lg font-semibold mt-4">Pending Reviews</h3>
+                        <p class="text-2xl font-bold mt-2">28</p>
+                        <p class="text-sm text-gray-600 mt-2">Awaiting moderation</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold">Product Management</h2>
+                        <div class="flex gap-4">
+                            <input type="text" id="searchInput" placeholder="Search products..." class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" oninput="filterProducts()" />
+                            <select id="categoryFilter" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="filterProducts()">
+                                <option value="">All Categories</option>
+                                <option value="Mens">Mens</option>
+                                <option value="Women">Women</option>
+                                <option value="Kids">Kids</option>
+                                <option value="Couple Dresses">Couple Dresses</option>
+                            </select>
+                            <select id="vendorFilter" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="filterProducts()">
+                                <option value="">All Vendors</option>
+                                <option value="Vendor A">Vendor A</option>
+                                <option value="Vendor B">Vendor B</option>
+                                <option value="Vendor C">Vendor C</option>
+                            </select>
+                            <select id="priceSort" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="sortProducts()">
+                                <option value="">Sort by</option>
+                                <option value="asc">Price: Low to High</option>
+                                <option value="desc">Price: High to Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full" id="productTable">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">Product</th>
+                                    <th class="px-4 py-3 text-left">Category</th>
+                                    <th class="px-4 py-3 text-left">Vendor</th>
+                                    <th class="px-4 py-3 text-left">Price</th>
+                                    <th class="px-4 py-3 text-left">Stock</th>
+                                    <th class="px-4 py-3 text-left">Status</th>
+                                    <th class="px-4 py-3 text-left">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y" id="productBody">
+                                <!-- Sample Product Data -->
+                                <tr class="hover:bg-gray-50" data-category="Fashion" data-vendor="Vendor A" data-price="99">
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://webcrumbs.cloud/placeholder" alt="Product" class="w-10 h-10 rounded-lg object-cover" />
+                                            <div>
+                                                <div class="font-semibold">Premium T-Shirt</div>
+                                                <div class="text-sm text-gray-500">SKU: TS-001</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3">Mens</td>
+                                    <td class="px-4 py-3">Vendor A</td>
+                                    <td class="px-4 py-3">₹.99</td>
+                                    <td class="px-4 py-3">124</td>
+                                    <td class="px-4 py-3">
+                                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-sm">Active</span>
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <div class="flex gap-2">
+                                            <button class="p-2 hover:bg-blue-50 rounded-lg transition-all text-blue-600">
+                                                <span class="material-symbols-outlined">edit</span>
+                                            </button>
+                                            <button class="p-2 hover:bg-red-50 rounded-lg transition-all text-red-600">
+                                                <span class="material-symbols-outlined">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50" data-category="Fashion" data-vendor="Vendor B" data-price="199">
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://webcrumbs.cloud/placeholder" alt="Product" class="w-10 h-10 rounded-lg object-cover" />
+                                            <div>
+                                                <div class="font-semibold">Classic Jeans</div>
+                                                <div class="text-sm text-gray-500">SKU: JE-002</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3">Womens</td>
+                                    <td class="px-4 py-3">Vendor B</td>
+                                    <td class="px-4 py-3">₹.199</td>
+                                    <td class="px-4 py-3">80</td>
+                                    <td class="px-4 py-3">
+                                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-sm">Active</span>
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <div class="flex gap-2">
+                                            <button class="p-2 hover:bg-blue-50 rounded-lg transition-all text-blue-600">
+                                                <span class="material-symbols-outlined">edit</span>
+                                            </button>
+                                            <button class="p-2 hover:bg-red-50 rounded-lg transition-all text-red-600">
+                                                <span class="material-symbols-outlined">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Add more products as needed -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function filterProducts() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const vendorFilter = document.getElementById('vendorFilter').value;
+            const productRows = document.querySelectorAll('#productBody tr');
+
+            productRows.forEach(row => {
+                const productName = row.querySelector('td:nth-child(1) div div').innerText.toLowerCase();
+                const productCategory = row.getAttribute('data-category');
+                const productVendor = row.getAttribute('data-vendor');
+
+                const matchesSearch = productName.includes(searchInput);
+                const matchesCategory = categoryFilter === '' || productCategory === categoryFilter;
+                const matchesVendor = vendorFilter === '' || productVendor === vendorFilter;
+
+                if (matchesSearch && matchesCategory && matchesVendor) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function sortProducts() {
+            const sortOption = document.getElementById('priceSort').value;
+            const productBody = document.getElementById('productBody');
+            const rows = Array.from(productBody.querySelectorAll('tr'));
+
+            rows.sort((a, b) => {
+                const priceA = parseFloat(a.getAttribute('data-price'));
+                const priceB = parseFloat(b.getAttribute('data-price'));
+
+                return sortOption === 'asc' ? priceA - priceB : priceB - priceA;
+            });
+
+            rows.forEach(row => productBody.appendChild(row));
+        }
+
+
+        function logout() {
+  // Redirect to login.html
+  window.location.href = 'login.html';
+}
+function showLogoutModal() {
+  const modal = document.getElementById('logoutModal');
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+ 
+}
+
+function hideLogoutModal() {
+  const modal = document.getElementById('logoutModal');
+  modal.classList.remove('flex');
+  modal.classList.add('hidden');
+}
+    </script>
+</body>
+</html>

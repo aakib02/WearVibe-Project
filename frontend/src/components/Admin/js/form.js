@@ -14,7 +14,7 @@ const fetchBrands = async () => {
     }
 
     try {
-        const response = await fetch("http://localhost:3000/api/getBrand", {
+        const response = await fetch("http://localhost:3000/api/getVendorBrand", {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`, // 👈 Token bhejna zaroori hai
@@ -47,6 +47,8 @@ document.addEventListener("DOMContentLoaded", fetchBrands);
 
 
 
+
+
 function calculateFinalPrice() {
     const price = parseFloat(document.getElementById("price").value) || 0;
     const discount = parseFloat(document.getElementById("discount").value) || 0;
@@ -60,6 +62,44 @@ function calculateFinalPrice() {
     }
 }
 
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const toggle = document.getElementById("sizeDropdownToggle");
+    const dropdown = document.getElementById("sizeDropdown");
+    const selectedSizes = document.getElementById("selectedSizes");
+    const checkboxes = document.querySelectorAll(".size-checkbox");
+    const dropdownIcon = document.getElementById("dropdownIcon");
+
+    toggle.addEventListener("click", function () {
+        dropdown.classList.toggle("hidden");
+        dropdownIcon.classList.toggle("rotate-180");
+    });
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", function () {
+            let selected = [];
+            checkboxes.forEach(cb => {
+                if (cb.checked) selected.push(cb.value);
+            });
+            selectedSizes.textContent = selected.length > 0 ? selected.join(", ") : "Select Sizes";
+        });
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!toggle.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.add("hidden");
+            dropdownIcon.classList.remove("rotate-180");
+        }
+    });
+});
+
+
+
+
+
+
+
 document.getElementById("productForm").addEventListener("submit", async function (e) {
     e.preventDefault(); 
 
@@ -72,9 +112,19 @@ document.getElementById("productForm").addEventListener("submit", async function
     formData.append("finalPrice", document.getElementById("finalPrice").value);
     formData.append("category", document.getElementById("category").value);
     formData.append("brand", document.getElementById("brand").value);
-    formData.append("sizes", document.getElementById("sizes").value);
+    // formData.append("sizes", document.getElementById("sizes").value);
     formData.append("colors", document.getElementById("colors").value);
     formData.append("stock", document.getElementById("stock").value);
+
+
+ // ✅ **Selected Sizes 
+ const selectedSizes = [];
+ document.querySelectorAll(".size-checkbox:checked").forEach(checkbox => {
+     selectedSizes.push(checkbox.value);
+ });
+
+ formData.append("sizes", JSON.stringify(selectedSizes)); 
+
 
 
 //    token get from cookies 
@@ -93,6 +143,12 @@ document.getElementById("productForm").addEventListener("submit", async function
     for (let i = 0; i < files.length; i++) {
         formData.append("images", files[i]);
     }
+
+
+
+
+
+
 
     try {
         const response = await fetch("http://localhost:3000/api/createProduct", {

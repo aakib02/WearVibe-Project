@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WearVibe</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 
     <style>
         body {
@@ -37,192 +38,297 @@
         .cart-items p {
             margin: 5px 0;
         }
-    </style>
+        
+        /* Custom Marquee Animation for carousel*/
+        @keyframes marquee {
+            0%, 20% {
+                transform: translateX(0);
+            }
+            50%, 70% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        /* Carousel-Animation */
+        .animate-marquee {
+            animation: marquee 20s infinite ease-in-out;
+        }
+
+        /* Marquee for Sales Ticker */
+        @keyframes tickerMarquee {
+        0% {
+            transform: translateX(100%);
+        }
+        100% {
+            transform: translateX(-200%);
+        }
+        }
+
+        .animate-ticker {
+        animation: tickerMarquee 10s linear infinite;
+        }
+
+
+        /* Fade In Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Slide In from Left Animation */
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Slide In from Right Animation */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Apply Animations */
+        .animate-fadeIn {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .animate-slideInLeft {
+            animation: slideInLeft 1s ease-out forwards;
+        }
+
+        .animate-slideInRight {
+            animation: slideInRight 1s ease-out forwards;
+        }
+
+        /* Initially hide elements */
+        #long-tile, #short-tile1, #short-tile2 {
+            opacity: 0;
+            transform: translateX(0);
+        }
+</style>
 </head>
-<body>
-    <div id="webcrumbs"> 
-        <div class="w-full font-sans">
-            <header class="bg-white shadow-md sticky top-0 z-50">
-                <nav class="flex items-center justify-between px-8 py-4">
-                    <div class="flex items-center space-x-4">
-                        <h1 class="text-2xl font-bold">WearVibe</h1>
-                        <input type="search" placeholder="Search fashion..." class="px-4 py-2 border rounded-lg hover:border-blue-500 transition-colors" />
+ <body class="bg-gray-50 flex flex-col min-h-screen">
+
+
+    
+
+        <header class="bg-white shadow-md sticky top-0 z-40">
+            <nav class="flex items-center justify-between px-8 py-4">
+                <div class="flex items-center space-x-4">
+                    <h1 class="text-2xl font-bold">wearvibe</h1>
+                    <div class="relative group">
+                        <span class="material-symbols-outlined cursor-pointer absolute left-3 top-2.5">search</span>
+                        <input type="search" placeholder="Search" class="pl-10 pr-4 py-2 border rounded-lg w-64 cursor-pointer" />
                     </div>
-                    <div class="flex items-center space-x-6">
-                        <!-- User Profile Icon -->
-                        <a href="#" class="text-lg cursor-pointer hover:scale-110 transition-transform" id="account-icon">
-                            <i class="fa fa-user"></i>
-                        </a>
+                    </div>
+                </div>
+                
+                <!-- Avatar Button & Dropdown Menu-->
+                <div class="flex items-center space-x-6">
+                    <div class="relative">
+                        <button id="avatarButton" title= "Profile" class="relative top-[-2px] -right-2 w-10 h-10 flex items-center justify-center rounded-full bg-white hover:text-gray-300 transition duration-200 cursor-pointer">
+                            <i class="fas fa-user text-gray-800 text-lg hover:text-gray-400 transition duration-200"></i>
+                        </button>
                         
-                        <!-- Wishlist Heart Icon -->
-                        <a href="wishlist.html" class="text-lg cursor-pointer hover:scale-110 transition-transform relative" id="wishlist-icon">
-                            <i class="fa fa-heart"></i>
-                            <span id="wishlist-count" class="absolute top-0 right-0 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center">0</span>
-                        </a>
-                        
-                        <!-- Shopping Cart Icon with Count -->
-                        <a href="#" class="text-lg cursor-pointer hover:scale-110 transition-transform relative" id="cart-icon">
-                            <i class="fa fa-shopping-cart"></i>
-                            <span id="cart-count" class="absolute top-0 right-0 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center">0</span>
-                        </a>
+                        <!-- Dropdown menu -->
+                        <div id="userDropdown" class="absolute right-0 mt-2 w-44 bg-white divide-y divide-gray-200 rounded-lg shadow-lg hidden">
+                            
+                            <ul class="py-2 text-sm text-gray-700">
+                                <li>
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Orders</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Wishlist</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Shopping Cart</a>
+                                </li>
+                                
+                            </ul>
+                        </div>
                     </div>
                     
-                </nav>
-                <div class="flex justify-center space-x-8 py-4 border-t">
-                    <a href="#" class="hover:underline hover:translate-y-[-2px] transition-all">Men</a>
-                    <a href="#" class="hover:underline hover:translate-y-[-2px] transition-all">Women</a>
-                    <a href="#" class="hover:underline hover:translate-y-[-2px] transition-all">Kids</a>
+                    <!-- Wishlist -->
+                    <div class="relative">
+                        <span title= "Wishlist" class="material-symbols-outlined hover:text-gray-400 transition duration-200 cursor-pointer" id="favorite-icon">favorite</span>
+                        <span class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center" id="favorite-count">0</span>
+                    </div>
+                    <!-- Cart -->
+                    <div class="relative">
+                        <span title= "Cart" class="material-symbols-outlined hover:text-gray-400 transition duration-200 cursor-pointer" id="cart-icon">shopping_cart</span>
+                        <span class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center" id="cart-count">0</span>
+                    </div>
                 </div>
-            </header>
-	
+            
+            <!-- Category (Gender) -->
+            </nav>
+            <div class="flex justify-center space-x-8 py-4 border-t bg-gray-200 bg-opacity-0">
+                <a href="mens.html" class="hover:text-gray-400 transition duration-200">Men</a>
+                <a href="#" class="hover:text-gray-400 transition duration-200">Women</a>
+                <a href="#" class="hover:text-gray-400 transition duration-200">Kids</a>
+            </div>
+        </header>
+
+        <!-- Ticker -->
+        <div class="overflow-hidden bg-gray-900 text-white py-2">
+            <div id="ticker" class="flex whitespace-nowrap animate-ticker">
+              <span class="mx-6">🔥 50% OFF on all items!</span>
+              <span class="mx-6">🎉 Buy 1 Get 1 Free on Shakes!</span>
+              <span class="mx-6">💥 Free Shipping on Orders Above ₹999!</span>
+              <span class="mx-6">⚡ Limited-Time Discount on Cupcakes!</span>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const ticker = document.getElementById("ticker");
+              const offers = ticker.innerHTML; // Save initial offers
+          
+              // Duplicate offers multiple times to prevent gaps
+              while (ticker.scrollWidth < window.innerWidth * 2) {
+                ticker.innerHTML += offers;
+              }
+            });
+          </script>
+
+          <!-- Carousel -->
+
             <main class="p-8">
                 <div class="mb-12">
-                    <div class="relative h-[400px] overflow-hidden rounded-lg">
-                        <div class="carousel" id="carousel">
-                            <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04" alt="Fashion Banner 1" />
-                            <img src="https://images.unsplash.com/photo-1445205170230-053b83016050" alt="Fashion Banner 2" />
-                            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b" alt="Fashion Banner 3" />
-                            <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b" alt="Fashion Banner 4" />
-                            <img src="https://images.unsplash.com/photo-1516257984-b1b4d707412e" alt="Fashion Banner 5" />
-                        </div>
-                    </div>
+                  
+
+            <!-- carousel   -->
+
+            <!-- Swiper CSS -->
+<link
+rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
+/>
+
+<div class="mb-12">
+<div class="relative overflow-hidden mt-4">
+  <!-- Swiper Container -->
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img
+          src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04"
+          alt="Image 1"
+          class="w-full h-96 object-cover"
+        />
+      </div>
+      <div class="swiper-slide">
+        <img
+          src="https://images.unsplash.com/photo-1445205170230-053b83016050"
+          alt="Image 2"
+          class="w-full h-96 object-cover"
+        />
+      </div>
+      <div class="swiper-slide">
+        <img
+          src="https://images.unsplash.com/photo-1483985988355-763728e1935b"
+          alt="Image 3"
+          class="w-full h-96 object-cover"
+        />
+      </div>
+      <div class="swiper-slide">
+        <img
+          src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b"
+          alt="Image 4"
+          class="w-full h-96 object-cover"
+        />
+      </div>
+      <div class="swiper-slide">
+        <img
+          src="https://images.unsplash.com/photo-1516257984-b1b4d707412e"
+          alt="Image 5"
+          class="w-full h-96 object-cover"
+        />
+      </div>
+    </div>
+
+    <!-- Pagination Dots -->
+    <div class="swiper-pagination"></div>
+  </div>
+</div>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script>
+var swiper = new Swiper(".mySwiper", {
+  loop: true,
+  autoplay: {
+    delay: 3000, // Auto-slide every 3 seconds
+    disableOnInteraction: false,
+  },
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+});
+</script>
+
                 </div>
 
-                <div class="mb-12">
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden group hover:shadow-xl transition-shadow">
-                            <div class="relative">
-                                <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b" alt="Classic T-Shirt" class="w-full h-64 object-cover group-hover:scale-105 transition-transform" id="product-img-1" />
-                                <div class="absolute bottom-4 left-4 flex space-x-2">
-                                    <button class="w-6 h-6 rounded-full bg-black border-2 border-white hover:scale-110 transition-transform"></button>
-                                    <button class="w-6 h-6 rounded-full bg-blue-600 border-2 border-white hover:scale-110 transition-transform"></button>
-                                    <button class="w-6 h-6 rounded-full bg-red-600 border-2 border-white hover:scale-110 transition-transform"></button>
-                                    <button class="w-6 h-6 rounded-full bg-green-600 border-2 border-white hover:scale-110 transition-transform"></button>
-                                </div>
-                            </div>
-                            <div class="p-4">
-                                <h3 class="text-lg font-semibold">Classic T-Shirt</h3>
-                                <p class="text-gray-600">$29.99</p>
-                                <div class="mt-4 space-y-4">
-                                    <div class="flex flex-wrap gap-2">
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">XS</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">S</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">M</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">L</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">XL</button>
-                                    </div>
-                                    <div class="flex justify-between items-center">
-                                        <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors add-to-cart" data-product="Classic T-Shirt" data-price="29.99">Add to Cart</button>
-                                        <button class="group">
-                                            <span class="fa fa-heart text-2xl group-hover:text-red-500 transition-colors wishlist-heart"></span>
-                                        </button>
-                                        
-                                    </div>
-                                </div>
+                <!-- Grid -->
+                <div class="text-center mt-8">
+                    <h2 class="text-3xl font-semibold text-gray-800">We Are Offering These!</h2>
+                    <p class="text-gray-600 m-2">Here is what we have to offer you.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 py-5 mb-12">
+                    <a href="/frontend/man.html" class="bg-white rounded-lg shadow-md overflow-hidden group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
+                        <div class="relative h-64">
+                            <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <h3 class="text-xl font-bold text-white">Men's Collection</h3>
                             </div>
                         </div>
-
-
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden group hover:shadow-xl transition-shadow">
-                            <div class="relative">
-                                <img src="https://images.unsplash.com/photo-1516257984-b1b4d707412e" alt="Denim Jacket" class="w-full h-64 object-cover group-hover:scale-105 transition-transform" id="product-img-2" />
-                                <div class="absolute bottom-4 left-4 flex space-x-2">
-                                    <button class="w-6 h-6 rounded-full bg-black border-2 border-white hover:scale-110 transition-transform"></button>
-                                    <button class="w-6 h-6 rounded-full bg-blue-600 border-2 border-white hover:scale-110 transition-transform"></button>
-                                    <button class="w-6 h-6 rounded-full bg-red-600 border-2 border-white hover:scale-110 transition-transform"></button>
-                                    <button class="w-6 h-6 rounded-full bg-green-600 border-2 border-white hover:scale-110 transition-transform"></button>
-                                </div>
-                            </div>
-                            <div class="p-4">
-                                <h3 class="text-lg font-semibold">Denim Jacket</h3>
-                                <p class="text-gray-600">$29.99</p>
-                                <div class="mt-4 space-y-4">
-                                    <div class="flex flex-wrap gap-2">
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">XS</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">S</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">M</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">L</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">XL</button>
-                                    </div>
-                                    <div class="flex justify-between items-center">
-                                        <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors add-to-cart" data-product="Denim Jacket" data-price="29.99">Add to Cart</button>
-                                        <button class="group">
-                                            <span class="fa fa-heart text-2xl group-hover:text-red-500 transition-colors wishlist-heart"></span>
-                                        </button>
-                                    </div>
-                                </div>
+                    </a>
+                    <a href="/frontend/woman.html" class="bg-white rounded-lg shadow-md overflow-hidden group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
+                        <div class="relative h-64">
+                            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <h3 class="text-xl font-bold text-white">Women's Collection</h3>
                             </div>
                         </div>
-                       
-
-
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden group hover:shadow-xl transition-shadow">
-                            <div class="relative">
-                                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab" alt="T-shirt" class="w-full h-64 object-cover group-hover:scale-105 transition-transform" id="product-img-3" />
-                                <div class="absolute bottom-4 left-4 flex space-x-2">
-                                    <button class="w-6 h-6 rounded-full bg-black border-2 border-white hover:scale-110 transition-transform"></button>
-                                    <button class="w-6 h-6 rounded-full bg-blue-600 border-2 border-white hover:scale-110 transition-transform"></button>
-                                    <button class="w-6 h-6 rounded-full bg-red-600 border-2 border-white hover:scale-110 transition-transform"></button>
-                                    <button class="w-6 h-6 rounded-full bg-green-600 border-2 border-white hover:scale-110 transition-transform"></button>
-                                </div>
-                            </div>
-                            <div class="p-4">
-                                <h3 class="text-lg font-semibold">T-Shirt</h3>
-                                <p class="text-gray-600">$29.99</p>
-                                <div class="mt-4 space-y-4">
-                                    <div class="flex flex-wrap gap-2">
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">XS</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">S</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">M</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">L</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">XL</button>
-                                    </div>
-                                    <div class="flex justify-between items-center">
-                                        <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors add-to-cart" data-product="Tshirt" data-price="29.99">Add to Cart</button>
-                                        <button class="group">
-                                            <span class="fa fa-heart text-2xl group-hover:text-red-500 transition-colors wishlist-heart"></span>
-                                        </button>
-                                    </div>
-                                </div>
+                    </a>
+                    <a href="/frontend/kids.html" class="bg-white rounded-lg shadow-md overflow-hidden group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
+                        <div class="relative h-64">
+                            <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <h3 class="text-xl font-bold text-white">Kid's Collection</h3>
                             </div>
                         </div>
-
-
-
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden group hover:shadow-xl transition-shadow">
-                            <div class="relative">
-                                <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27" alt="T-shirt" class="w-full h-64 object-cover group-hover:scale-105 transition-transform" id="product-img-3" />
-                                <div class="absolute bottom-4 left-4 flex space-x-2">
-                                    <button class="w-6 h-6 rounded-full bg-black border-2 border-white hover:scale-110 transition-transform"></button>
-                                    <button class="w-6 h-6 rounded-full bg-blue-600 border-2 border-white hover:scale-110 transition-transform"></button>
-                                    <button class="w-6 h-6 rounded-full bg-red-600 border-2 border-white hover:scale-110 transition-transform"></button>
-                                    <button class="w-6 h-6 rounded-full bg-green-600 border-2 border-white hover:scale-110 transition-transform"></button>
-                                </div>
-                            </div>
-                            <div class="p-4">
-                                <h3 class="text-lg font-semibold">T-Shirt</h3>
-                                <p class="text-gray-600">$29.99</p>
-                                <div class="mt-4 space-y-4">
-                                    <div class="flex flex-wrap gap-2">
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">XS</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">S</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">M</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">L</button>
-                                        <button class="px-3 py-1 border rounded-md hover:bg-gray-100 transition-colors">XL</button>
-                                    </div>
-                                    <div class="flex justify-between items-center">
-                                        <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors add-to-cart" data-product="Tshirt" data-price="29.99">Add to Cart</button>
-                                        <button class="group">
-                                            <span class="fa fa-heart text-2xl group-hover:text-red-500 transition-colors wishlist-heart"></span>
-                                        </button>
-                                    </div>
-                                </div>
+                    </a>
+                    <a href="/new-arrivals" class="bg-white rounded-lg shadow-md overflow-hidden group hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
+                        <div class="relative h-64">
+                            <img src="https://images.unsplash.com/photo-1516257984-b1b4d707412e" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <h3 class="text-xl font-bold text-white">New Arrivals</h3>
                             </div>
                         </div>
-                        <!-- Add additional product cards as needed -->
-
-                    
-                    </div>
+                    </a>
                 </div>
 
                  <!-- Coupon Section -->
@@ -231,8 +337,8 @@
                     <p class="text-gray-600 mt-2">Grab these limited-time offers and save big on your next purchase!</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Coupon Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Coupon Cards -->
                     <div class="bg-white rounded-lg shadow-md overflow-hidden group hover:shadow-xl transition-shadow">
                         <div class="relative">
                             <img src="https://images.unsplash.com/photo-1617137984095-74e4e5e3613f" alt="Men's Fashion" class="w-full h-64 object-cover group-hover:scale-105 transition-transform" />
@@ -266,6 +372,125 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Why Choose Us -->
+                <div class="text-center mt-8">
+                    <h2 class="text-3xl font-semibold text-gray-800">Why Choose Us?</h2>
+                    <p class="text-gray-600 mt-2">Because we're the best in every aspect.</p>
+                </div>
+                <div class="container mx-auto px-4 py-10">
+                    <div class="grid grid-cols-2 gap-6 md:grid-cols-4">
+                    <!-- Tile 1 -->
+                    <div class="tile bg-blue-100 p-6 rounded-tl-3xl rounded-br-3xl rounded-tr-none rounded-bl-none hover:bg-blue-300 hover:rounded-tl-none hover:rounded-br-none hover:rounded-tr-3xl hover:rounded-bl-3xl transition-all duration-500 shadow-md">
+                        <h3 class="inline-flex text-gray-800 font-semibold mb-4">
+                            <i class="fa-solid fa-truck text-xl text-gray-800 mr-2"></i>
+                            Shipping All Over India</h3>
+                        <p class="text-gray-600 text-[12px] text-justify">Discover the latest fashion trends at our online clothing store. Enjoy hassle-free shopping. Shop now and elevate your style!</p>
+                    </div>
+                
+                    <!-- Tile 2 -->
+                    <div class="tile bg-blue-100 p-6 rounded-tl-3xl rounded-br-3xl rounded-tr-none rounded-bl-none hover:bg-blue-300 hover:rounded-tl-none hover:rounded-br-none hover:rounded-tr-3xl hover:rounded-bl-3xl transition-all duration-500 shadow-md">
+                        <h3 class="inline-flex text-gray-800 font-semibold mb-4">
+                            <i class="fa-solid fa-ranking-star text-xl text-gray-800 mr-2"></i>
+                            Best Quality</h3>
+                        <p class="text-gray-600 text-[12px] text-justify">Discover a world of exquisite fashion at our online clothing store. From trendy essentials to timeless classics, we offer superior craftsmanship and exceptional style.</p>
+                    </div>
+                
+                    <!-- Tile 3 -->
+                    <div class="tile bg-blue-100 p-6 rounded-tl-3xl rounded-br-3xl rounded-tr-none rounded-bl-none hover:bg-blue-300 hover:rounded-tl-none hover:rounded-br-none hover:rounded-tr-3xl hover:rounded-bl-3xl transition-all duration-500 shadow-md">
+                        <h3 class="inline-flex text-gray-800 font-semibold mb-4">
+                            <i class="fa-solid fa-tags text-xl text-gray-800 mr-2"></i>
+                            Best Offers</h3>
+                        <p class="text-gray-600 text-[12px] text-justify">Explore our diverse collection of fashionable clothing at unbeatable prices. Shop with us for the trendiest styles and exclusive discounts. Elevate your wardrobe today!</p>
+                    </div>
+                
+                    <!-- Tile 4 -->
+                    <div class="tile bg-blue-100 p-6 rounded-tl-3xl rounded-br-3xl rounded-tr-none rounded-bl-none hover:bg-blue-300 hover:rounded-tl-none hover:rounded-br-none hover:rounded-tr-3xl hover:rounded-bl-3xl transition-all duration-500 shadow-md">
+                        <h3 class="inline-flex text-gray-800 font-semibold mb-4">
+                            <i class="fa-solid fa-shield-halved text-xl text-gray-800 mr-2"></i>
+                            Secure Payments</h3>
+                        <p class="text-gray-600 text-[12px] text-justify">Shop the latest trends at our trusted ecommerce clothing store. Enjoy seamless, worry-free transactions with our robust payment system. Your style, your security.</p>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8">
+                    <h2 class="text-3xl font-semibold text-gray-800">Know About Us!</h2>
+                    <p class="text-gray-600 mt-2">Here is everything you need to know about us.</p>
+                </div>
+
+                <!-- Big Tile Container -->
+<div class="container mx-auto px-4 py-4 mt-8 rounded-lg shadow-md bg-blue-50" id="big-tile">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Long Tile -->
+        <div class="col-span-1 bg-blue-100 p-0 flex flex-col  items-top rounded-lg shadow-md flex-1 overflow-hidden" id="long-tile">
+            <!-- Image covering 2/3 of the height -->
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b" alt="Long Tile" class="w-full h-2/3 object-cover rounded-t-lg">
+            
+            <!-- Text below the image -->
+            <div class="ml-4 mt-4 w-full">
+                <h3 class="text-xl font-semibold text-gray-800">Exclusive Deals Just for You!</h3>
+                <p class="text-gray-600 text-sm mt-2">Discover amazing discounts and shop your favorites at the best prices.</p>
+                <a href="#" class="text-blue-600 font-medium mt-1 inline-block">Learn More →</a>
+            </div>
+        </div>
+
+        <!-- Column with 2 Smaller Tiles -->
+        <div class="col-span-1 grid grid-rows-2 gap-3">
+            <!-- Short Tile 1 -->
+            <div class="bg-blue-100 flex items-center rounded-lg shadow-md flex-1 overflow-hidden" id="short-tile1">
+                <!-- Image on the left half with full height -->
+                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b" alt="Short Tile 1" class="w-1/2 h-full object-cover rounded-tl-lg rounded-bl-lg">
+                <!-- Text on the right half -->
+                <div class="ml-4 w-1/2">
+                    <h3 class="text-lg font-semibold text-gray-800">Fast Shipping</h3>
+                    <p class="text-gray-600 text-xs mt-2">Get your orders delivered quickly across India.</p>
+                    <a href="#" class="text-blue-600 font-medium mt-3 inline-block">Learn More →</a>
+                </div>
+            </div>
+        
+            <!-- Short Tile 2 -->
+            <div class="bg-blue-100 flex items-center rounded-lg shadow-md flex-1 overflow-hidden" id="short-tile2">
+                <!-- Image on the left half with full height -->
+                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b" alt="Short Tile 2" class="w-1/2 h-full object-cover rounded-tl-lg rounded-bl-lg">
+                <!-- Text on the right half -->
+                <div class="ml-4 w-1/2">
+                    <h3 class="text-lg font-semibold text-gray-800">Quality Guaranteed</h3>
+                    <p class="text-gray-600 text-xs mt-2">We offer the best quality products with assurance.</p>
+                    <a href="#" class="text-blue-600 font-medium mt-3 inline-block">Learn More →</a>
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>
+                <script>
+                    window.addEventListener('scroll', function () {
+                        const longTile = document.getElementById('long-tile');
+                        const shortTile1 = document.getElementById('short-tile1');
+                        const shortTile2 = document.getElementById('short-tile2');
+                
+                        // Check if the element is in the viewport
+                        function isInViewport(element) {
+                            const rect = element.getBoundingClientRect();
+                            return rect.top <= window.innerHeight && rect.bottom >= 0;
+                        }
+                
+                        // Trigger animations when the element is in the viewport
+                        if (isInViewport(longTile)) {
+                            longTile.classList.add('animate-slideInLeft');
+                        }
+                
+                        if (isInViewport(shortTile1)) {
+                            shortTile1.classList.add('animate-slideInRight');
+                        }
+                
+                        if (isInViewport(shortTile2)) {
+                            shortTile2.classList.add('animate-slideInRight');
+                        }
+                    });
+                </script>
+                
+  
             </main>
 
             <footer class="bg-gray-900 text-white mt-12">
@@ -278,10 +503,22 @@
                         <div>
                             <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
                             <ul class="space-y-2">
-                                <li><a href="/frontend/reqVendorForm.html" class="text-gray-400 hover:text-white transition-colors">Request Seller</a></li>
-                                <li><a href="/shop" class="text-gray-400 hover:text-white transition-colors">Shop</a></li>
-                                <li><a href="/contact" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
-                                <li><a href="/faq" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+                                <li><a href="/src/components/Admin/requestVendor.html" class="text-gray-400 hover:text-white transition-colors">Sell Your Product</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Shop</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Help</a></li>
+                                <li><a href="faqs.html" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+                                <li><a href="contactquery.html" class="text-gray-400 hover:text-white transition-colors">Query Form</a></li>
+                            </ul>
+                        </div>
+        
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4">Customer Policies</h3>
+                            <ul class="space-y-2">
+                                <li><a href="privacypolicy.html" class="text-gray-400 hover:text-white transition-colors">Return Privacy Policy</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms & Condition</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Track Order</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Shipping</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Cancellation</a></li>
                             </ul>
                         </div>
                         <div>
@@ -296,13 +533,13 @@
                             <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
                             <div class="flex space-x-4">
                                 <a href="#" class="hover:text-blue-400 transition-colors">
-                                    <span class="material-symbols-outlined">facebook</span>
+                                    <i class="fab fa-facebook-f"></i>
                                 </a>
                                 <a href="#" class="hover:text-blue-400 transition-colors">
-                                    <span class="material-symbols-outlined">twitter</span>
+                                    <i class="fab fa-twitter"></i>
                                 </a>
                                 <a href="#" class="hover:text-blue-400 transition-colors">
-                                    <span class="material-symbols-outlined">instagram</span>
+                                    <i class="fab fa-instagram"></i>
                                 </a>
                             </div>
                         </div>
@@ -322,6 +559,22 @@
         </div>
     </div>
 
-    <script src="garment.js"></script>
+   
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const avatarButton = document.getElementById("avatarButton");
+    const userDropdown = document.getElementById("userDropdown");
+
+    avatarButton.addEventListener("click", function () {
+        userDropdown.classList.toggle("hidden");
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!avatarButton.contains(event.target) && !userDropdown.contains(event.target)) {
+            userDropdown.classList.add("hidden");
+        }
+    });
+});
+    </script>
 </body>
 </html>

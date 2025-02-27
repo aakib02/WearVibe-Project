@@ -7,7 +7,7 @@ const roleMiddleware = require('../middleware/roleMiddleware')
 router.get("/navbar",  NavbarController.getNavbarLinks );
 router.get('/search',NavbarController.searchBarController)
 
-router.get('/profile',authMiddleware, roleMiddleware(['customer',"vendor",'admin']), NavbarController.getProfileController)
+router.get('/profile',authMiddleware, NavbarController.getProfileController)
 
 
 module.exports = router;

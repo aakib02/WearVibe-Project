@@ -37,16 +37,6 @@ try {
         return res.status(404).json({ message: "User not found" });
     }
 
-    // if (user.role === "vendor") {
-    //     navbarLinks.push({ name: "Vendor Dashboard", path: "/vendor" });
-    // }
-    // if (user.role === "admin") {
-    //     navbarLinks.push({ name: "Admin Dashboard", path: "/admin" });
-    // }
-
-       // ✅ Fetch brands from database
-    //    const brands = await brandSchema.find({}, "name"); 
-
 
 
     res.json({ profile: { name: user.name, role: user.role },user });
@@ -61,8 +51,9 @@ exports.searchBarController = async (req, res) => {
         let { q, category, maxPrice } = req.query;
         maxPrice = parseInt(maxPrice) || 100000; // Default max price
 
+        // Build the filter object
         let filter = {
-            finalPrice: { $lte: maxPrice }, // ✅ Filter products <= max price
+            finalPrice: { $lte: maxPrice }, // Filter products <= max price
             $or: [
                 { productName: { $regex: q, $options: "i" } },
                 { description: { $regex: q, $options: "i" } },
@@ -70,16 +61,22 @@ exports.searchBarController = async (req, res) => {
             ]
         };
 
-        if (category !== "all") {
-            filter.category = category; // ✅ Apply category filter
+        // Apply category filter if provided and not equal to "all"
+        if (category && category !== "all") {
+            filter.category = category;
         }
 
+        // Query the database with the filter
         const products = await Product.find(filter);
+
         res.json({ success: true, data: products });
     } catch (error) {
         console.error("Search Error:", error);
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 };
+
+
+
 
 

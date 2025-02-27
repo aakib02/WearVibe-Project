@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WearVibe Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="webcrumbs" class="flex flex-col min-h-screen">
+        <header class="flex items-center justify-between px-6 py-4 bg-white shadow-md">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-3xl">store</span>
+                <h1 class="text-xl font-semibold">WearVibe</h1>
+            </div>
+            <div class="flex-1 max-w-2xl mx-8">
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-2.5">search</span>
+                    <input type="text" class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="Search..." />
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="relative">
+                    <span class="material-symbols-outlined text-2xl hover:text-blue-500 transition-colors cursor-pointer">notifications</span>
+                    <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">3</span>
+                </div>
+                <details class="relative">
+                    <summary class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="profile" class="w-8 h-8 rounded-full" />
+                        <span class="material-symbols-outlined">expand_more</span>
+                    </summary>
+                    <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10">
+                        <a class="block px-4 py-2 hover:bg-gray-100">Account Settings</a>
+                        <a id="logout-btn" class="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors cursor-pointer">
+                            <span class="material-symbols-outlined">logout</span>
+                            Logout
+                        </a>
+                    </div>
+                </details>
+            </div>
+        </header>
+
+        <div class="flex flex-1">
+            <!-- Sidebar -->
+            <aside id="sidebar-container" class="w-64 bg-white shadow-md p-4"></aside>
+
+            <main class="flex-1 p-8">
+                <div class="max-w-7xl mx-auto space-y-8">
+                    <div class="bg-white rounded-2xl shadow-xl p-8">
+                        <div class="flex justify-between items-center mb-8">
+                            <h2 class="text-2xl font-bold">Sales Analytics</h2>
+                            
+                            <div class="flex gap-4">
+                                <select id="timeframe" class="px-4 py-2 rounded-lg border-2 border-gray-200 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all">
+                                    <option value="7">Last 7 Days</option>
+                                    <option value="30">Last 30 Days</option>
+                                    <option value="90">Last 90 Days</option>
+                                    <option value="365">Last Year</option>
+                                </select>
+                                <button id="export-btn" class="flex items-center gap-2 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all">
+                                    <span class="material-symbols-outlined">download</span>
+                                    Export
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                            <div class="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                                <div class="flex justify-between items-start mb-4">
+                                    <span class="material-symbols-outlined text-3xl text-blue-500">trending_up</span>
+                                    <span class="text-green-500 text-sm font-medium">+12.5%</span>
+                                </div>
+                                <h3 class="text-gray-600 mb-2">Total Sales</h3>
+                                <p class="text-2xl font-bold">₹24,563</p>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                                <div class="flex justify-between items-start mb-4">
+                                    <span class="material-symbols-outlined text-3xl text-blue-500">shopping_cart</span>
+                                    <span class="text-green-500 text-sm font-medium">+8.3%</span>
+                                </div>
+                                <h3 class="text-gray-600 mb-2">Total Orders</h3>
+                                <p class="text-2xl font-bold">1,203</p>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                                <div class="flex justify-between items-start mb-4">
+                                    <span class="material-symbols-outlined text-3xl text-blue-500">group</span>
+                                    <span class="text-green-500 text-sm font-medium">+5.7%</span>
+                                </div>
+                                <h3 class="text-gray-600 mb-2">New Customers</h3>
+                                <p class="text-2xl font-bold">356</p>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                                <div class="flex justify-between items-start mb-4">
+                                    <span class="material-symbols-outlined text-3xl text-blue-500">inventory_2</span>
+                                    <span class="text-green-500 text-sm font-medium">+15.2%</span>
+                                </div>
+                                <h3 class="text-gray-600 mb-2">Product Views</h3>
+                                <p class="text-2xl font-bold">8,592</p>
+                            </div>
+                        </div>
+
+                        <div class="chart-container mb-8">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="bg-gray-50 rounded-xl p-6">
+                                <h3 class="text-xl font-bold mb-6">Top Selling Products</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between p-4 bg-white rounded-lg hover:shadow-md transition-all">
+                                        <div>
+                                            <h4 class="font-medium">Men's Classic Suit</h4>
+                                            <p class="text-sm text-gray-500">352 sales</p>
+                                        </div>
+                                        <p class="font-bold">₹105,600</p>
+                                    </div>
+                                    <div class="flex items-center justify-between p-4 bg-white rounded-lg hover:shadow-md transition-all">
+                                        <div>
+                                            <h4 class="font-medium">Women's Summer Dress</h4>
+                                            <p class="text-sm text-gray-500">284 sales</p>
+                                        </div>
+                                        <p class="font-bold">₹45,440</p>
+                                    </div>
+                                    <div class="flex items-center justify-between p-4 bg-white rounded-lg hover:shadow-md transition-all">
+                                        <div>
+                                            <h4 class="font-medium">Kids Casual Set</h4>
+                                            <p class="text-sm text-gray-500">196 sales</p>
+                                        </div>
+                                        <p class="font-bold">₹17,640</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-gray-50 rounded-xl p-6">
+                                <h3 class="text-xl font-bold mb-6">Sales by Category</h3>
+                                <div class="chart-container mb-8">
+                                    <canvas id="salesCategoryChart"></canvas>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script>
+        // Sales Category Data for Pie Chart
+        const categoryCtx = document.getElementById('salesCategoryChart').getContext('2d');
+        new Chart(categoryCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Men', 'Women', 'Kids'],
+                datasets: [{
+                    label: 'Sales by Category',
+                    data: [50000, 35000, 15000],
+                    backgroundColor: ['#60A5FA', '#F87171', '#34D399']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        });
+    </script>
+
+<script>
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+    let salesChart;
+
+    function updateChart(timeframe) {
+        const data = {
+            '7': [2000, 3000, 2500, 4000, 3500, 3000, 4500],
+            '30': [12000, 15000, 11000, 18000, 22000, 19000, 24000, 26000, 23000, 25000, 27000, 29000, 31000, 33000, 35000, 37000, 39000, 41000, 43000, 45000, 47000, 49000, 51000, 53000, 55000, 57000, 59000, 61000, 63000, 65000],
+            '90': [30000, 35000, 32000, 40000, 45000, 48000, 50000, 52000, 54000, 56000, 58000, 60000],
+            '365': [100000, 120000, 110000, 130000, 140000, 150000, 160000, 170000, 180000, 190000, 200000, 210000]
+        };
+
+        if (salesChart) {
+            salesChart.destroy();
+        }
+
+        salesChart = new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: timeframe === '7' ? ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'] : 
+                       timeframe === '30' ? Array.from({length: 30}, (_, i) => `Day ${i + 1}`) :
+                       timeframe === '90' ? Array.from({length: 90}, (_, i) => `Day ${i + 1}`) :
+                       Array.from({length: 12}, (_, i) => `Month ${i + 1}`),
+                datasets: [{
+                    label: 'Total Sales (₹)',
+                    data: data[timeframe],
+                    borderColor: '#3B82F6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true }
+                }
+            }
+        });
+    }
+
+    document.getElementById('timeframe').addEventListener('change', (event) => {
+        updateChart(event.target.value);
+    });
+
+    // Initial chart load
+    updateChart('7');
+</script>
+    <script src="js/logout.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Load the sidebar
+            fetch("vendorsidebar.html")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById("sidebar-container").innerHTML = data;
+                })
+                .catch(error => console.error("Error loading sidebar:", error));
+        });
+    </script>
+</body>
+</html>

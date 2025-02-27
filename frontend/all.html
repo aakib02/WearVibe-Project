@@ -8,8 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-
+    
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Open Sans', sans-serif; }
@@ -48,10 +49,14 @@
                     </button>
                     
                     <!-- Dropdown menu -->
-                    <div id="userDropdown" class="absolute right-0 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-lg hidden">
-                        <div class="px-4 py-3 text-sm text-gray-900">
-                            <div id="profile"></div>
-                            <div id="userMail" class="font-medium truncate"></div>
+                    <div id="userDropdown" class="absolute right-0 mt-2 w-72 bg-white divide-y divide-gray-100 rounded-lg shadow-lg hidden">
+                        <div id="profile-container px-4">
+                            <div id="profile" class="block px-4  text-xs  text-gray-700"></div>
+                            <div id="userMail" class="block px-4 pb-2 text-xs  text-gray-700"></div>
+                            <div id="login-prompt" class="hidden">
+                                <p class=" block px-4 py-1 font-extrabold text-sm text-black">Welcome</p>
+                                <p class="block px-4 pb-2 text-xs  text-gray-700">To access account and manage orders <br> <a class="text-pink-600" href="/frontend/src/components/Admin/login.html">login</a> or <a  class="text-pink-600" href="/frontend/src/components/Admin/signup.html">signup</a>.</p>
+                            </div>
                         </div>
                         <ul class="py-2 text-sm text-gray-700">
                             <li>
@@ -66,7 +71,7 @@
                             
                         </ul>
                         <div class="py-1">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                            <a href="#" id="logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
                         </div>
                     </div>
                 </div>
@@ -74,13 +79,13 @@
                 <div class="relative">
                     <a href="wishlist.html">
                     <span class="material-symbols-outlined cursor-pointer" id="favorite-icon">favorite</span>
-                    <span class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center" id="favorite-count">0</span>
+                    <span class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center  text-center" id="wishList-count" class="wishList-badge">0</span>
                 </a>
                 </div>
                 <div class="relative">
                     <a href="addToCart.html">
                     <span class="material-symbols-outlined cursor-pointer" id="cart-icon">shopping_cart</span>
-                    <span class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center" id="cart-count">0</span>
+                    <span class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-center" id="cart-count" class="cart-badge">0</span>
                 </a>
                 </div>
             </div>
@@ -149,25 +154,10 @@
 
             <div class="space-y-3">
                 <h3 class="font-semibold">Brands</h3>
-                <input type="text" id="brandSearch" placeholder="Search brands..." class="border rounded-lg p-2 w-full" />
-                <div class="space-y-2 mt-2" id="brandOptions">
-                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition-colors">
-                        <input type="checkbox" class="w-4 h-4 rounded text-blue-500" />
-                        Nike
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition-colors">
-                        <input type="checkbox" class="w-4 h-4 rounded text-blue-500" />
-                        Adidas
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition-colors">
-                        <input type="checkbox" class="w-4 h-4 rounded text-blue-500" />
-                        Puma
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition-colors">
-                        <input type="checkbox" class="w-4 h-4 rounded text-blue-500" />
-                        Reebok
-                    </label>
-                </div>
+                <!-- Brand Filters -->
+                <div id="brandOptions"></div>
+                <!-- <div id="productContainer"></div> -->
+
             </div>
         </aside>
         <main class="flex-1 p-8 bg-gray-50">
@@ -231,7 +221,9 @@
             </div>
         </div>
     </footer>
-<script src="all.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+<script  src="all.js"></script>
 
 </body>
 

@@ -21,7 +21,7 @@ router.patch('/changeRole/:userId',authMiddleware, roleMiddleware('admin'),  ven
 // router.patch('/updateVendorStatus/:vendorId', authMiddleware, roleMiddleware('admin'), vendorController.updateVendorStatus);
 
 
-router.get('/getBrand',authMiddleware,vendorController.getBrandController)
+router.get('/getVendorBrand',authMiddleware,vendorController.getVendorBrandController)
 router.get('/getVendor',authMiddleware , vendorController.getVendorsController)
 
 module.exports = router;

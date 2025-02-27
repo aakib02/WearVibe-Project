@@ -73,10 +73,10 @@ exports.getVendors = async (req, res) => {
 
 
 
-exports.getBrandController = async (req, res) => {
+exports.getVendorBrandController = async (req, res) => {
     try {
         const vendorId = req.user.vendorId; // Token se vendorId milega
-    console.log(vendorId,'hii');
+    console.log(vendorId,'vendor id recieved');
         if (!vendorId) {
             return errorResponse(res, 'Unauthorized access', {}, 401);
         }
@@ -97,6 +97,10 @@ exports.getVendorsController = async (req, res) => {
         return errorResponse(res, "Error retrieving users", { error: error.message }, 500)
     }
 }
+
+
+
+
 
 
 

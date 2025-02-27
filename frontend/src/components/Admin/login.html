@@ -44,13 +44,20 @@
                     <input
                         type="password"
                         id="password"
-                        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                        class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                         placeholder="Enter your password"
                         required
                     />
+                    <span
+                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 cursor-pointer"
+                        onclick="togglePassword('password', this)"
+                    >
+                        <i class="fa-regular fa-eye"></i>
+                    </span>
                 </div>
                 <p id="passwordError" class="text-red-500 text-sm mt-1 hidden">Invalid password.</p>
             </div>
+            
             
 
             <div class="flex items-center justify-between">
@@ -58,7 +65,7 @@
                     <input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
                     <span class="ml-2 text-sm">Remember me</span>
                 </label>
-                <a href="#" class="text-sm text-blue-600 hover:text-blue-700 hover:underline">Forgot password?</a>
+                <a href="forgetpassword.html" class="text-sm text-blue-600 hover:text-blue-700 hover:underline">Forgot password?</a>
             </div>
 
             <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transform hover:scale-[1.02] transition-all">
@@ -88,7 +95,7 @@
 
             <p class="text-center text-sm">
                 Don't have an account?
-                <a href="#" class="text-blue-600 hover:text-blue-700 hover:underline ml-1">Sign up</a>
+                <a href="register.html" class="text-blue-600 hover:text-blue-700 hover:underline ml-1">Sign up</a>
             </p>
         </form>
     </div>

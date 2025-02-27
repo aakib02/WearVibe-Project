@@ -97,12 +97,21 @@
         <div class="p-6">
             <h2 class="text-xl font-bold mb-8">WearVibe</h2>
             <ul>
-                <li><span class="material-symbols-outlined mr-2">dashboard</span> Overview</li>
-                <li><span class="material-symbols-outlined mr-2">inventory</span> Products</li>
-                <li><span class="material-symbols-outlined mr-2">shopping_cart</span> Orders</li>
-                <li><span class="material-symbols-outlined mr-2">group</span> Customers</li>
-                <li><span class="material-symbols-outlined mr-2">trending_up</span> Sales Report</li>
-                <li><span class="material-symbols-outlined mr-2">settings</span> Settings</li>
+               
+                <li>
+                    <a href="admindash.html" class="flex items-center">
+                        <span class="material-symbols-outlined mr-2">dashboard</span> Overview
+                    </a>
+                    <!-- Dropdown Sub-Menu -->
+                    <ul class="ml-6 hidden" id="overviewDropdown">
+                        <li><a href="vendordash.html">Vendor Dashboard</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="/frontend/adminproduct.html" class="flex items-center"><span class="material-symbols-outlined mr-2">inventory</span> Products</a></li>
+                <li><a href="/frontend/adminorders.html" class="flex items-center"><span class="material-symbols-outlined mr-2">shopping_cart</span> Orders</a></li>
+                <li><a href="/frontend/vendorApproval.html" class="flex items-center"><span class="material-symbols-outlined mr-2">check_circle</span> Approval</a></li>
+                
             </ul>
         </div>
     </div>
@@ -128,24 +137,42 @@
                         <span class="material-symbols-outlined p-2 hover:bg-gray-100 rounded-full transition-all">notifications</span>
                     </summary>
                     <div class="absolute right-0 w-80 bg-white shadow-lg rounded-lg mt-2 p-4">
-                        <h3 class="font-semibold mb-2">Notifications</h3>
+                        <h3 class="font-semibold mb-2">Alerts</h3>
                         <div class="space-y-2">
-                            <div class="p-2 hover:bg-gray-50 rounded transition-all">New order received</div>
-                            <div class="p-2 hover:bg-gray-50 rounded transition-all">Low stock alert</div>
+                            <div class="p-2 hover:bg-red-50 rounded transition-all flex items-center gap-2">
+                                <span class="material-symbols-outlined text-red-500">warning</span>
+                                Low stock alert: 5 products
+                            </div>
+                            <div class="p-2 hover:bg-yellow-50 rounded transition-all flex items-center gap-2">
+                                <span class="material-symbols-outlined text-yellow-500">star</span>
+                                New product review
+                            </div>
                         </div>
                     </div>
                 </details>
                 <details class="relative">
                     <summary class="list-none cursor-pointer flex items-center">
-                        <img src="https://ui-avatars.com/api/?name=Admin+User" alt="Admin" class="w-8 h-8 rounded-full" />
+                        <img src="https://ui-avatars.com/api/?name=Admin+User " alt="Admin" class="w-8 h-8 rounded-full" />
                     </summary>
                     <div class="absolute right-0 w-48 bg-white shadow-lg rounded-lg mt-2">
                         <div class="p-2 hover:bg-gray-50 cursor-pointer transition-all">
                             <a href="adminedit.html" class="block">Profile</a>
                         </div>
                         <div class="p-2 hover:bg-gray-50 cursor-pointer transition-all">
-                            <a href="login.html" class="block">Logout</a>
-                        </div>
+                            <a href="#" onclick="showLogoutModal()" class="block">Logout</a>
+                          </div>
+                          
+                          <!-- Logout Confirmation Modal -->
+                          <div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden z-50">
+                            <div class="bg-white rounded-2xl shadow-lg p-6 w-full max-w-sm">
+                              <h2 class="text-xl font-semibold text-center mb-4">Are you sure you want to logout?</h2>
+                              <div class="flex justify-between gap-4">
+                                <button onclick="logout()" class="w-full bg-red-500 text-white py-2 rounded-lg">OK</button>
+                                <button onclick="hideLogoutModal()" class="w-full bg-gray-300 text-gray-800 py-2 rounded-lg">Cancel</button>
+                              </div>
+                            </div>
+                          </div>
+                          
                         
                     </div>
                 </details>
@@ -156,7 +183,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all">
                     <h3 class="text-lg font-semibold mb-2">Total Sales</h3>
-                    <p class="text-2xl font-bold">$24,500</p>
+                    <p class="text-2xl font-bold">₹24,500</p>
                     <div class="text-green-500 text-sm mt-2">+12% from last month</div>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all">
@@ -191,7 +218,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                 <div class="bg-white p-6 rounded-lg shadow-sm">
                     <h3 class="text-lg font-semibold mb-4">Recent Orders</h3>
-                    <table class="w-full">
+                    <table class="w-full" id="ordersTable">
                         <thead>
                             <tr class="border-b">
                                 <th class="text-left py-2">Order ID</th>
@@ -201,38 +228,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="border-b hover:bg-gray-50 transition-all">
-                                <td class="py-2">#12345</td>
-                                <td class="py-2">John Doe</td>
-                                <td class="py-2">$120</td>
-                                <td class="py-2"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm">Delivered</span></td>
-                            </tr>
-                            <tr class="border-b hover:bg-gray-50 transition-all">
-                                <td class="py-2">#12344</td>
-                                <td class="py-2">Jane Smith</td>
-                                <td class="py-2">$200</td>
-                                <td class="py-2"><span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-sm">Processing</span></td>
-                            </tr>
+                            <!-- Orders will be populated here -->
                         </tbody>
                     </table>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-sm">
                     <h3 class="text-lg font-semibold mb-4">Recent Activities</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-center space-x-4 hover:bg-gray-50 p-2 rounded transition-all">
-                            <span class="material-symbols-outlined bg-blue-100 p-2 rounded-full">add_shopping_cart</span>
-                            <div>
-                                <p class="font-medium">New product added</p>
-                                <p class="text-sm text-gray-500">2 minutes ago</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-4 hover:bg-gray-50 p-2 rounded transition-all">
-                            <span class="material-symbols-outlined bg-green-100 p-2 rounded-full">local_shipping</span>
-                            <div>
-                                <p class="font-medium">Order #12345 shipped</p>
-                                <p class="text-sm text-gray-500">1 hour ago</p>
-                            </div>
-                        </div>
+                    <div class="space-y-4" id="activitiesList">
+                        <!-- Activities will be populated here -->
                     </div>
                 </div>
             </div>
@@ -242,48 +245,149 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
-        var options = {
-            chart: {
-                type: 'area',
-                height: 350,
-                toolbar: {
-                    show: false
-                }
-            },
-            stroke: {
-                curve: 'smooth'
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shadeIntensity: 1,
-                    opacityFrom: 0.7,
-                    opacityTo: 0.2,
-                    stops: [0, 90, 100]
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            xaxis: {
-                categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-            },
-            series: [{
-                name: 'Revenue',
-                data: [30, 40, 35, 50, 49, 60, 70]
-            }],
-            colors: ['#4F46E5']
-        };
+        // Function to generate random sales data
+    function generateRandomData(length) {
+        return Array.from({ length }, () => Math.floor(Math.random() * 500) + 100); // Random numbers between 100-600
+    }
 
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
+    // Function to get categories (dates or days)
+    function getCategories(timeRange) {
+        const today = new Date();
+        const categories = [];
 
+        if (timeRange === 'Last 7 days') {
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            return days;
+        } else {
+            const totalDays = timeRange === 'Last 30 days' ? 30 : 90;
+            for (let i = totalDays - 1; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - i);
+                categories.push(`${date.getDate()}/${date.getMonth() + 1}`);
+            }
+            return categories;
+        }
+    }
+
+    var options = {
+        chart: { type: 'bar', height: 350, toolbar: { show: false } },
+        stroke: { curve: 'smooth' },
+        fill: {
+            type: 'solid',
+            gradient: { shadeIntensity: 1, opacityFrom: 0.7, opacityTo: 0.2, stops: [0, 90, 100] }
+        },
+        dataLabels: { enabled: false },
+        xaxis: { categories: getCategories('Last 7 days') },
+        series: [{ name: 'Revenue', data: generateRandomData(7) }],
+        colors: ['#4F46E5']
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+
+    // Update chart based on selected time range
+    function updateChart(timeRange) {
+        chart.updateOptions({
+            xaxis: { categories: getCategories(timeRange) }
+        });
+        chart.updateSeries([{ name: 'Revenue', data: generateRandomData(timeRange === 'Last 7 days' ? 7 : timeRange === 'Last 30 days' ? 30 : 90) }]);
+    }
+
+    // Event listener for dropdown change
+    document.querySelector('select').addEventListener('change', function () {
+        updateChart(this.value);
+    });
+
+
+
+    
+        // Sample data for orders and activities
+        const sampleOrders = [
+            { id: '#12345', customer: 'John Doe', amount: '₹120', status: 'Delivered' },
+            { id: '#12344', customer: 'Jane Smith', amount: '₹200', status: 'Processing' },
+            { id: '#12343', customer: 'Alice Johnson', amount: '₹150', status: 'Shipped' },
+            { id: '#12342', customer: 'Bob Brown', amount: '₹300', status: 'Pending' },
+            { id: '#12341', customer: 'Charlie Davis', amount: '₹90', status: 'Delivered' }
+        ];
+    
+        const sampleActivities = [
+            { icon: 'add_shopping_cart', message: 'New product added', time: '2 minutes ago' },
+            { icon: 'local_shipping', message: 'Order #12345 shipped', time: '1 hour ago' },
+            { icon: 'edit', message: 'Product #123 updated', time: '3 hours ago' },
+            { icon: 'delete', message: 'Order #12344 canceled', time: '5 hours ago' },
+            { icon: 'check_circle', message: 'Order #12343 completed', time: '6 hours ago' }
+        ];
+    
+        // Function to load orders and activities from local storage
+        function loadOrdersAndActivities() {
+            const orders = JSON.parse(localStorage.getItem('orders')) || sampleOrders;
+            const activities = JSON.parse(localStorage.getItem('activities')) || sampleActivities;
+    
+            const ordersTableBody = document.querySelector('#ordersTable tbody');
+            ordersTableBody.innerHTML = '';
+            orders.forEach(order => {
+                const row = `<tr class="border-b hover:bg-gray-50 transition-all">
+                                <td class="py-2">${order.id}</td>
+                                <td class="py-2">${order.customer}</td>
+                                <td class="py-2">${order.amount}</td>
+                                <td class="py-2"><span class="bg-${order.status === 'Delivered' ? 'green' : 'yellow'}-100 text-${order.status === 'Delivered' ? 'green' : 'yellow'}-800 px-2 py-1 rounded-full text-sm">${order.status}</span></td>
+                            </tr>`;
+                ordersTableBody.innerHTML += row;
+            });
+    
+            const activitiesList = document.getElementById('activitiesList');
+            activitiesList.innerHTML = '';
+            activities.forEach(activity => {
+                const activityItem = `<div class="flex items-center space-x-4 hover:bg-gray-50 p-2 rounded transition-all">
+                                        <span class="material-symbols-outlined bg-blue-100 p-2 rounded-full">${activity.icon}</span>
+                                        <div>
+                                            <p class="font-medium">${activity.message}</p>
+                                            <p class="text-sm text-gray-500">${activity.time}</p>
+                                        </div>
+                                    </div>`;
+                activitiesList.innerHTML += activityItem;
+            });
+        }
+    
+        // Save sample data to local storage
+        localStorage.setItem('orders', JSON.stringify(sampleOrders));
+        localStorage.setItem('activities', JSON.stringify(sampleActivities));
+    
+        // Load data on page load
+        window.onload = loadOrdersAndActivities;
+    
         // Sidebar Toggle
         function toggleSidebar() {
             document.getElementById("sidebar").classList.toggle("active");
             document.querySelector(".content").classList.toggle("active");
         }
-    </script>
 
+
+        document.querySelector('a[href="admindash.html"]').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent default link behavior
+    const dropdown = document.getElementById('overviewDropdown');
+    dropdown.classList.toggle('hidden');  // Toggle visibility of the dropdown
+});
+
+function logout() {
+  // Redirect to login.html
+  window.location.href = 'login.html';
+}
+function showLogoutModal() {
+  const modal = document.getElementById('logoutModal');
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+ 
+}
+
+function hideLogoutModal() {
+  const modal = document.getElementById('logoutModal');
+  modal.classList.remove('flex');
+  modal.classList.add('hidden');
+}
+
+    </script>
+    
+    
 </body>
 </html>

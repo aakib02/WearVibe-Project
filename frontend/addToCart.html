@@ -25,55 +25,12 @@
         <nav class="flex items-center justify-between px-8 py-4">
             <div class="flex items-center space-x-4">
                 <h1 class="text-2xl font-bold">WearVibe</h1>
-                <div class="relative group">
-                    <span class="material-symbols-outlined absolute left-3 top-2.5">search</span>
-                    <input type="search" placeholder="Search fashion..." class="pl-10 pr-4 py-2 border rounded-lg w-64" />
-                </div>
+              
             </div>
             <div class="flex items-center space-x-6">
-                <div class="relative">
-                    <button id="avatarButton" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 cursor-pointer">
-                        <i class="fas fa-user text-gray-600 text-lg"></i>
-                    </button>
-                    
-                    <!-- Dropdown menu -->
-                    <div id="userDropdown" class="absolute right-0 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-lg hidden">
-                        <a href="myprofile.html" class="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-100 transition-colors">
-                            <div>Bonnie Green</div>
-                            <div class="font-medium truncate">name@flowbite.com</div>
-                        </a>
-                        <ul class="py-2 text-sm text-gray-700">
-                            <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Order</a>
-                            </li>
-                            <li>
-                                <a href="wishlist.html" class="block px-4 py-2 hover:bg-gray-100">Wishlist</a>
-                            </li>
-                            <li>
-                                <a href="addtocart.html" class="block px-4 py-2 hover:bg-gray-100">Shopping Cart</a>
-                            </li>
-                        </ul>
-                        <div class="py-1">
-                            <a href="/src/components/Admin/login.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="relative">
-                    <span class="material-symbols-outlined cursor-pointer" id="favorite-icon">favorite</span>
-                    <span class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center" id="favorite-count">0</span>
-                </div>
-                <div class="relative">
-                    <span class="material-symbols-outlined cursor-pointer" id="cart-icon">shopping_cart</span>
-                    <span class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center" id="cart-count">0</span>
-                </div>
-            </div>
+               <h1 class="text-xl font-semibold">Your Cart Items</h1>
         </nav>
-        <div class="flex justify-center space-x-8 py-4 border-t">
-            <a href="mens.html" class="hover:underline">Men</a>
-            <a href="#" class="hover:underline">Women</a>
-            <a href="#" class="hover:underline">Kids</a>
-        </div>
+ 
     </header>
 <div id="webcrumbs">
     <div class="w-[1280px] bg-gray-100">
@@ -131,16 +88,35 @@
                                 <a href="all.html" class="ml-2 text-sm text-indigo-600 hover:underline">Continue Shopping</a>
                             </div>
                         </div>
+  
 
-                        <div class="mt-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-                            <h3 class="text-lg font-medium">Have a coupon?</h3>
-                            <div class="mt-4 flex gap-2">
-                                <input type="text" class="flex-1 rounded-lg border border-gray-200 px-4 py-2 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200" placeholder="Enter code" />
-                                <button class="rounded-lg bg-indigo-600 px-6 py-2 text-white transition-colors hover:bg-indigo-700">
-                                    Apply
-                                </button>
-                            </div>
-                        </div>
+                        <!-- Collapsible Coupon Section -->
+                                      <div class="mt-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+                                        <button
+                                          id="toggleCoupon"
+                                          class="w-full text-left text-lg font-medium flex justify-between items-center"
+                                        >
+                                          Have a coupon?
+                                          <i
+                                            class="fas fa-chevron-down ml-2 transition-transform duration-300"
+                                          ></i>
+                                        </button>
+                                        <div id="couponContent" class="mt-4 hidden">
+                                          <div class="flex gap-2">
+                                            <input
+                                              type="text"
+                                              class="flex-1 rounded-lg border border-gray-200 px-4 py-2 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                                              placeholder="Enter code"
+                                            />
+                                            <button
+                                              class="rounded-lg bg-indigo-600 px-6 py-2 text-white transition-colors hover:bg-indigo-700"
+                                            >
+                                              Apply
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <!-- End of Coupon Section -->
                     </div>
                 </div>
             </div>
@@ -191,6 +167,10 @@
 </footer>
 
 <script>
+
+
+
+
     const getCookie = (name) => {
     const cookies = document.cookie.split("; ");
     for (let cookie of cookies) {
@@ -199,6 +179,14 @@
     }
     return null;
 };
+
+
+
+
+
+
+
+
  function isUserLoggedIn() {
         return getCookie("token") !== null;  // Agar token hai toh user logged in hai
     }
@@ -251,7 +239,8 @@ function displayCartData(cart) {
     let subtotal = 0;
 
     cart.forEach((item, index) => {
-        let itemTotal = item.price * item.quantity;
+        let itemTotal = item.finalPrice
+        * item.quantity;
         subtotal += itemTotal;
 
         let colors = Array.isArray(item.colors) ? item.colors.join(", ") : "Not specified";
@@ -266,15 +255,15 @@ function displayCartData(cart) {
                     <p class="text-sm"><strong>Category:</strong> ${item.category || "Unknown"}</p>
                     <p class="text-sm"><strong>Colors:</strong> ${colors}</p>
                     <p class="text-sm"><strong>Sizes:</strong> ${sizes}</p>
-                    <p class="text-sm"><strong>Original Price:</strong> ₹${item.price}</p>
+                    <p class="text-sm"> <span class="text-lg font-bold">₹${item.finalPrice} </span>  <span class="line-through">${item.price}</span>   <span class="text-red-400  "> ${item.discount}% off </span></p>
                     <div class="flex items-center space-x-2 mt-2">
-                        <button class="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300" onclick="updateQuantity(${index}, -1)">-</button>
-                        <p class="text-sm font-semibold">${item.quantity}</p>
-                        <button class="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300" onclick="updateQuantity(${index}, 1)">+</button>
+                        <button class="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300" onclick="updateCartQuantity('${item._id}', 'decrement', ${index})">-</button>
+                        <span id="cart-item-${item._id}-quantity">${item.quantity}</span>
+                        <button class="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300" onclick="updateCartQuantity('${item._id}', 'increment', ${index})">+</button>
                     </div>
                     <p class="text-sm text-green-600"><strong>Total Price:</strong> ₹${itemTotal}</p>
                 </div>
-                <button class="text-red-500 hover:text-red-700" onclick="removeFromCart(${index})">Remove</button>
+                <button id="" class="text-red-500 hover:text-red-700" onclick="removeFromCart('${item._id}', ${index})">Remove</button>
             </div>
         `;
     });
@@ -293,57 +282,55 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// Function to update item quantity
-function updateQuantity(index, change) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    if (cart[index].quantity + change > 0) {
-        cart[index].quantity += change;
-        localStorage.setItem("cart", JSON.stringify(cart));
-        displayCartData();
+function removeFromCart(productId, index) {
+    if (isUserLoggedIn()) {
+        removeItemFromBackend(productId);
+    } else {
+        removeItemFromLocalStorage(index);
     }
 }
 
-// Function to remove item from cart
-function removeFromCart(index) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+function removeItemFromBackend(productId) {
+    const token = getCookie("token");
+    console.log(productId);
 
-    // Ensure the item exists before accessing _id
-    if (!cart[index]) {
-        console.log("Error: Item not found at index", index);
+    fetch(`http://localhost:3000/api/removeFromCart/${productId}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            console.log("Item removed from backend successfully!");
+            fetchCartData();
+        } else {
+            console.log("Failed to remove item from backend:", data.message);
+        }
+    })
+    .catch(error => console.log("Error removing item from backend:", error));
+}
+
+function removeItemFromLocalStorage(index) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if (index < 0 || index >= cart.length) {
+        console.log("Invalid index:", index);
         return;
     }
-
-    const removedItem = cart[index]; // Get the item to be removed
-
-    // Remove item from localStorage cart
     cart.splice(index, 1);
     localStorage.setItem("cart", JSON.stringify(cart));
-    displayCartData(); // Refresh cart UI
+    displayCartData(cart);
+}
 
-    // Backend request to delete from database if user is logged in
-    if (isUserLoggedIn()) {
-        try {
-            const token = getCookie("token");
-            fetch("http://localhost:3000/api/removeFromCart", {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify({ productId: removedItem._id }) // Ensure _id exists
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (!data.success) {
-                    console.log("Failed to remove item:", data.message);
-                }
-            })
-            .catch(error => console.log("Error removing item:", error));
-        } catch (error) {
-            console.log("Error removing item:", error);
-        }
+function updateCartCount(count) {
+    let cartCountElement = document.getElementById('cart-count');
+    if (cartCountElement) {
+        cartCountElement.textContent = count;
     }
 }
+
 
 document.getElementById("Checkout").addEventListener("click", function () {
     if (!isUserLoggedIn()) {
@@ -354,11 +341,65 @@ document.getElementById("Checkout").addEventListener("click", function () {
 });
 
 
-// document.addEventListener("DOMContentLoaded", function () {
-//     // displayCartData();
-// });
+
+
+async function updateCartQuantity(productId, action,index) {
+    if (!isUserLoggedIn()) {
+        updateLocalCartQuantity(productId, action,index);
+        return;
+    }
+
+    try {
+        const token = getCookie("token");
+        const res = await fetch("http://localhost:3000/api/updateCart", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ productId, action }) // action: "increment" or "decrement"
+        });
+        const data = await res.json();
+        if (data.success) {
+            console.log(`Product ${action}ed in backend cart`, data);
+            updateCartCount();
+            fetchCartData(); // ✅ UI refresh
+        
+        } else {
+            console.log("Failed to update cart quantity:", data.message);
+        }
+    } catch (error) {
+        console.log("Error updating cart quantity:", error);
+    }
+  
+}
+
+function updateLocalCartQuantity(productId, action,index) {
+    console.log(index,action);
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (index >= 0 && index < cart.length) {
+        if (action === "increment") {
+            cart[index].quantity += 1;
+        } else if (action === "decrement") {
+            if (cart[index].quantity > 1) {
+                cart[index].quantity -= 1;
+            } else {
+                cart.splice(index, 1); // Remove if quantity reaches 0
+            }
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        fetchCartData(); // Refresh cart UI
+    }
+}
+
+
+
+
+
 
 </script>
-<script src="bag.js"></script>
+<!-- <script src="bag.js"></script> -->
 </body>
 </html>

@@ -102,11 +102,11 @@
         <div class="bg-gray-50 p-4 rounded-lg">
             <div class="flex justify-between mb-2">
                 <p>Total MRP</p>
-                <p>₹2,499</p>
+                <p id="totalMRP">₹0.00</p>
             </div>
             <div class="flex justify-between mb-2">
-                <p>Platform Fee</p>
-                <p>₹20</p>
+                <p>Discount</p>
+                <p id="totalDiscount">₹0.00</p>
             </div>
             <div class="flex justify-between mb-2">
                 <p>Shipping Fee</p>
@@ -114,12 +114,28 @@
             </div>
             <div class="flex justify-between font-bold text-lg">
                 <p>Total Amount</p>
-                <p>₹2,519</p>
+                <p id="totalAmount">₹0.00</p>
             </div>
         </div>
 
+
+            <!-- Payment Method Selection -->
+            <h2 class="text-xl font-semibold mt-6 mb-4">Select Payment Method</h2>
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <label class="flex items-center space-x-3 cursor-pointer">
+                    <input type="radio" name="payment" class="form-radio" id="codOption">
+                    <span>Cash on Delivery (COD)</span>
+                </label>
+                <label class="flex items-center space-x-3 cursor-pointer mt-2">
+                    <input type="radio" name="payment" class="form-radio" id="prepaidOption">
+                    <span>Prepaid (Credit/Debit Card, UPI, Net Banking)</span>
+                </label>
+            </div>
+ 
+    
+
         <div class="flex justify-center mt-6">
-            <button onclick="window.location.href='payment.html'" 
+            <button id="proceedBtn" 
                 class="bg-blue-600 text-white py-3 px-6 rounded-lg text-lg font-semibold">
                 Proceed To Payment
             </button>
@@ -172,15 +188,79 @@
     </footer>
 
     <script>
+
+
+const getCookie = (name) => {
+    const cookies = document.cookie.split("; ");
+    for (let cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.split("=");
+        if (cookieName === name) return cookieValue;
+    }
+    return null;
+};
+
+
+async function fetchCartData() {
+    try {
+        const token = getCookie("token"); // Token se user ki authentication karein
+        const res = await fetch("http://localhost:3000/api/getCart", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const data = await res.json();
+        console.log(data);
+
+        if (data.success && Array.isArray(data.cart)) {
+   // ✅ Total MRP Calculation (Original Price)
+   const totalMRP = data.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+// ✅ Total Amount Calculation (Final Price after Discount)
+const totalAmount = data.cart.reduce((sum, item) => sum + item.finalPrice * item.quantity, 0);
+
+// ✅ Total Discount Calculation
+const totalDiscount = totalMRP - totalAmount;
+
+// ✅ HTML mein values update karna
+document.getElementById("totalMRP").innerText = `₹${totalMRP.toFixed(2)}`;
+document.getElementById("totalDiscount").innerText = `-₹${totalDiscount.toFixed(2)}`;
+document.getElementById("totalAmount").innerText = `₹${totalAmount.toFixed(2)}`;
+           
+        }
+    } catch (error) {
+        console.log("Error fetching cart data:", error);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    fetchCartData();
+
+    document.getElementById("proceedBtn").addEventListener("click", function () {
+        const codOption = document.getElementById("codOption");
+        const prepaidOption = document.getElementById("prepaidOption");
+
+        if (codOption.checked) {
+            window.location.href = "order.html"; // COD ke liye order page
+        } else if (prepaidOption.checked) {
+            window.location.href = "payment.html"; // Prepaid ke liye prepaidOrder page
+        } else {
+            alert("Please select a payment method before proceeding!");
+        }
+    });
+});
+
         document.getElementById('addressSelected').addEventListener('change', function() {
             let btn = document.getElementById('proceedBtn');
             btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
             btn.classList.add('bg-blue-600');
             btn.disabled = false;
         });
-    </script>
-    <script>
+ 
         document.addEventListener("DOMContentLoaded", function () {
+
             const avatarButton = document.getElementById("avatarButton");
             const userDropdown = document.getElementById("userDropdown");
 
@@ -194,6 +274,7 @@
                 }
             });
         });
+        
     </script>
 </body>
 </html>

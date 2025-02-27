@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WearVibe Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            display: flex;
+            min-height: 100vh;
+            background-color: #f7fafc; /* Light gray background */
+        }
+
+        /* Sidebar */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 16rem; 
+            height: 100vh; 
+            z-index: 10;
+            background-color: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        #sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #sidebar li {
+            padding: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #sidebar li:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Content */
+        .content {
+            margin-left: 16rem; /* Space for sidebar */
+            padding: 2rem;
+            transition: margin-left 0.3s ease;
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            #sidebar {
+                transform: translateX(-100%); /* Hide sidebar off-screen */
+            }
+
+            #sidebar.active {
+                transform: translateX(0); /* Show sidebar */
+            }
+
+            .content {
+                margin-left: 0; /* No margin for content */
+            }
+
+            .content.active {
+                margin-left: 16rem; /* Space for sidebar when active */
+            }
+
+            .hamburger {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                left: 1rem;
+                font-size: 2rem;
+                z-index: 20;
+                cursor: pointer;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar" class="hidden md:block">
+        <div class="p-6">
+            <h2 class="text-xl font-bold mb-8">WearVibe</h2>
+            <ul>
+               
+                <li>
+                    <a href="admindash.html" class="flex items-center">
+                        <span class="material-symbols-outlined mr-2">dashboard</span> Overview
+                    </a>
+                    <!-- Dropdown Sub-Menu -->
+                    <ul class="ml-6 hidden" id="overviewDropdown">
+                        <li><a href="vendordash.html">Vendor Dashboard</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="adminproduct.html" class="flex items-center"><span class="material-symbols-outlined mr-2">inventory</span> Products</a></li>
+                <li><a href="adminorders.html" class="flex items-center"><span class="material-symbols-outlined mr-2">shopping_cart</span> Orders</a></li>
+                <li><a href="/frontend/vendorApproval.html" class="flex items-center"><span class="material-symbols-outlined mr-2">check_circle</span> Approval</a></li>
+                
+            </ul>
+        </div>
+    </div>
+
+    <main class="flex-1 content">
+        <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-10">
+            <div class="flex items-center gap-4">
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-2.5 text-gray-400">search</span>
+                    <input type="text" placeholder="Search orders..." class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <select class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option>All Status</option>
+                    <option>Pending</option>
+                    <option>Processing</option>
+                    <option>Shipped</option>
+                    <option>Delivered</option>
+                    <option>Cancelled</option>
+                </select>
+                <select class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option>All Vendors</option>
+                    <option>Vendor A</option>
+                    <option>Vendor B</option>
+                    <option>Vendor C</option>
+                </select>
+                <!-- Removed More Filters button -->
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <details class="relative">
+                    <summary class="list-none cursor-pointer">
+                        <span class="material-symbols-outlined p-2 hover:bg-gray-100 rounded-full transition-all">notifications</span>
+                    </summary>
+                    <div class="absolute right-0 w-80 bg-white shadow-lg rounded-lg mt-2 p-4">
+                        <h3 class="font-semibold mb-2">Order Alerts</h3>
+                        <div class="space-y-2">
+                            <div class="p-2 hover:bg-red-50 rounded transition-all flex items-center gap-2">
+                                <span class="material-symbols-outlined text-red-500">priority_high</span>
+                                New order #12345 needs attention
+                            </div>
+                            <div class="p-2 hover:bg-yellow-50 rounded transition-all flex items-center gap-2">
+                                <span class="material-symbols-outlined text-yellow-500">schedule</span>
+                                5 orders pending shipment
+                            </div>
+                            <div class="p-2 hover:bg-green-50 rounded transition-all flex items-center gap-2">
+                                <span class="material-symbols-outlined text-green-500">done_all</span>
+                                3 orders delivered successfully
+                            </div>
+                        </div>
+                    </div>
+                </details>
+                
+                <details class="relative">
+                    <summary class="list-none cursor-pointer">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User  " alt="Admin" class="w-8 h-8 rounded-full" />
+                    </summary>
+                    <div class="absolute right-0 w-48 bg-white shadow-lg rounded-lg mt-2">
+                        <div class="p-2 hover:bg-gray-50 cursor-pointer transition-all">
+                            <a href="adminedit.html" class="block">Profile</a>
+                        </div>
+                        
+                        <div class="p-2 hover:bg-gray-50 cursor-pointer transition-all">
+                            <a href="#" onclick="showLogoutModal()" class="block">Logout</a>
+                          </div>
+                          
+                          <!-- Logout Confirmation Modal -->
+                          <div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden z-50">
+                            <div class="bg-white rounded-2xl shadow-lg p-6 w-full max-w-sm">
+                              <h2 class="text-xl font-semibold text-center mb-4">Are you sure you want to logout?</h2>
+                              <div class="flex justify-between gap-4">
+                                <button onclick="logout()" class="w-full bg-red-500 text-white py-2 rounded-lg">OK</button>
+                                <button onclick="hideLogoutModal()" class="w-full bg-gray-300 text-gray-800 py-2 rounded-lg">Cancel</button>
+                              </div>
+                            </div>
+                          </div>
+
+                    </div>
+                </details>
+            </div>
+        </header>
+
+        <div class="p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-blue-50 p-6 rounded-xl hover:shadow-lg transition-all transform hover:-translate-y-1">
+                    <span class="material-symbols-outlined text-4xl text-blue-500">shopping_cart</span>
+                    <h3 class="text-lg font-semibold mt-4">Total Orders</h3>
+                    <p class="text-2xl font-bold mt-2">1,543</p>
+                    <p class="text-sm text-gray-600 mt-2">+8% from last month</p>
+                </div>
+                <div class="bg-green-50 p-6 rounded-xl hover:shadow-lg transition-all transform hover:-translate-y-1">
+                    <span class="material-symbols-outlined text-4xl text-green-500">local_shipping</span>
+                    <h3 class="text-lg font-semibold mt-4">Completed Orders</h3>
+                    <p class="text-2xl font-bold mt-2">1,234</p>
+                    <p class="text-sm text-gray-600 mt-2">80% completion rate</p>
+                </div>
+                <div class="bg-yellow-50 p-6 rounded-xl hover:shadow-lg transition-all transform hover:-translate-y-1">
+                    <span class="material-symbols-outlined text-4xl text-yellow-500">pending</span>
+                    <h3 class="text-lg font-semibold mt-4">Pending Orders</h3>
+                    <p class="text-2xl font-bold mt-2">256</p>
+                    <p class="text-sm text-gray-600 mt-2">Needs processing</p>
+                </div>
+                <div class="bg-red-50 p-6 rounded-xl hover:shadow-lg transition-all transform hover:-translate-y-1">
+                    <span class="material-symbols-outlined text-4xl text-red-500">cancel</span>
+                    <h3 class="text-lg font-semibold mt-4">Cancelled Orders</h3>
+                    <p class="text-2xl font-bold mt-2">53</p>
+                    <p class="text-sm text-gray-600 mt-2">3.4% cancellation rate</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <h2 class="text-xl font-bold mb-6">Order Analytics</h2>
+                <div id="chart" style="height: 350px;"></div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold">Recent Orders</h2>
+                    <button class="text-blue-500 hover:text-blue-600 transition-all">View All Orders</button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left">Order ID</th>
+                                <th class="px-4 py-3 text-left">Customer</th>
+                                <th class="px-4 py-3 text-left">Vendor</th>
+                                <th class="px-4 py-3 text-left">Products</th>
+                                <th class="px-4 py-3 text-left">Total</th>
+                                <th class="px-4 py-3 text-left">Payment</th>
+                                <th class="px-4 py-3 text-left">Status</th>
+                                <th class="px-4 py-3 text-left">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <!-- Displaying only 15 orders -->
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 font-medium">#ORD-001</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-3">
+                                        <img src="https://webcrumbs.cloud/placeholder" alt="Customer" class="w-8 h-8 rounded-full" />
+                                        <div>
+                                            <div class="font-semibold">John Doe</div>
+                                            <div class="text-sm text-gray-500">john@example.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3">Vendor A</td>
+                                <td class="px-4 py-3">3 items</td>
+                                <td class="px-4 py-3 font-semibold">₹299.99</td>
+                                <td class="px-4 py-3">
+                                    <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-sm">Paid</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm">Processing</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex gap-2">
+                                        <button class="p-2 hover:bg-blue-50 rounded-lg transition-all text-blue-600">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                        <button class="p-2 hover:bg-purple-50 rounded-lg transition-all text-purple-600">
+                                            <span class="material-symbols-outlined">receipt_long</span>
+                                        </button>
+                                        <button class="p-2 hover:bg-green-50 rounded-lg transition-all text-green-600">
+                                            <span class="material-symbols-outlined">local_shipping</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Repeat similar rows for other orders, up to 15 -->
+                            <!-- Example for additional orders -->
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 font-medium">#ORD-002</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-3">
+                                        <img src="https://webcrumbs.cloud/placeholder" alt="Customer" class="w-8 h-8 rounded-full" />
+                                        <div>
+                                            <div class="font-semibold">Jane Smith</div>
+                                            <div class="text-sm text-gray-500">jane@example.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3">Vendor B</td>
+                                <td class="px-4 py-3">2 items</td>
+                                <td class="px-4 py-3 font-semibold">₹199.99</td>
+                                <td class="px-4 py-3">
+                                    <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-sm">Paid</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm">Processing</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex gap-2">
+                                        <button class="p-2 hover:bg-blue-50 rounded-lg transition-all text-blue-600">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                        <button class="p-2 hover:bg-purple-50 rounded-lg transition-all text-purple-600">
+                                            <span class="material-symbols-outlined">receipt_long</span>
+                                        </button>
+                                        <button class="p-2 hover:bg-green-50 rounded-lg transition-all text-green-600">
+                                            <span class="material-symbols-outlined">local_shipping</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Add more rows as needed, up to 15 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+        var options = {
+            chart: {
+                type: 'bar',
+                height: 350,
+                toolbar: { show: false }
+            },
+            series: [{
+                name: "Orders",
+                data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+            }],
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+            },
+            stroke: { curve: 'smooth' },
+            fill: {
+                type: 'solid',
+                gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.7,
+                    opacityTo: 0.9,
+                    stops: [0, 90, 100]
+                }
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+
+
+        function logout() {
+  // Redirect to login.html
+  window.location.href = 'login.html';
+}
+function showLogoutModal() {
+  const modal = document.getElementById('logoutModal');
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+ 
+}
+
+function hideLogoutModal() {
+  const modal = document.getElementById('logoutModal');
+  modal.classList.remove('flex');
+  modal.classList.add('hidden');
+}
+    </script>
+</body>
+</html>

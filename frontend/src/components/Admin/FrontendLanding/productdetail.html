@@ -1,209 +1,171 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fashion Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <title>Product Page</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    
-    
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
         }
     </style>
 </head>
-<body>
-    <div id="webcrumbs"> 
-        <div class="w-full font-sans">
-            <header class="bg-white shadow-md sticky top-0 z-50">
-                <nav class="flex items-center justify-between px-8 py-4">
-                    <div class="flex items-center space-x-4">
-                        <h1 class="text-2xl font-bold">WearVibe</h1>
-                        <input type="search" placeholder="Search fashion..." class="px-4 py-2 border rounded-lg hover:border-blue-500 transition-colors" />
-                    </div>
-                    <div class="flex items-center space-x-6">
-                        <!-- User Profile Icon -->
-                        <a href="#" class="text-lg cursor-pointer hover:scale-110 transition-transform" id="account-icon">
-                            <i class="fa fa-user"></i>
-                        </a>
-                        
-                        <!-- Wishlist Heart Icon -->
-                        <a href="wishlist.html" class="text-lg cursor-pointer hover:scale-110 transition-transform relative" id="wishlist-icon">
-                            <i class="fa fa-heart"></i>
-                            <span id="wishlist-count" class="absolute top-0 right-0 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center">0</span>
-                        </a>
-                        
-                        <!-- Shopping Cart Icon with Count -->
-                        <a href="#" class="text-lg cursor-pointer hover:scale-110 transition-transform relative" id="cart-icon">
-                            <i class="fa fa-shopping-cart"></i>
-                            <span id="cart-count" class="absolute top-0 right-0 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center">0</span>
-                        </a>
-                    </div>
-                    
-                </nav>
-                <div class="flex justify-center space-x-8 py-4 border-t">
-                    <a href="#" class="hover:underline hover:translate-y-[-2px] transition-all">Men</a>
-                    <a href="#" class="hover:underline hover:translate-y-[-2px] transition-all">Women</a>
-                    <a href="#" class="hover:underline hover:translate-y-[-2px] transition-all">Kids</a>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="flex items-center justify-between px-8 py-4">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-bold">WearVibe</h1>
+                <div class="relative group">
+                    <span class="material-symbols-outlined absolute left-3 top-2.5">search</span>
+                    <input type="search" placeholder="Search fashion..." class="pl-10 pr-4 py-2 border rounded-lg w-64" />
                 </div>
-            </header>
-	
-    
-            <main class="p-8">
-                <section class="flex gap-8">
-                    <div class="w-1/2">
-                        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27" class="w-full rounded-lg hover:scale-105 transition-transform duration-300" alt="Product" />
-                        <div class="grid grid-cols-4 gap-4 mt-4">
-                            <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27" class="rounded cursor-pointer hover:opacity-75 transition-opacity" alt="Thumbnail" />
-                            <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27" class="rounded cursor-pointer hover:opacity-75 transition-opacity" alt="Thumbnail" />
-                            <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27" class="rounded cursor-pointer hover:opacity-75 transition-opacity" alt="Thumbnail" />
-                            <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27" class="rounded cursor-pointer hover:opacity-75 transition-opacity" alt="Thumbnail" />
+            </div>
+            <div class="flex items-center space-x-6">
+                <div class="relative">
+                    <button id="avatarButton" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 cursor-pointer">
+                        <i class="fas fa-user text-gray-600 text-lg"></i>
+                    </button>
+                    
+                    <!-- Dropdown menu -->
+                    <div id="userDropdown" class="absolute right-0 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-lg hidden">
+                        <a href="myprofile.html" class="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-100 transition-colors">
+                            <div>Bonnie Green</div>
+                            <div class="font-medium truncate">name@flowbite.com</div>
+                        </a>
+                        <ul class="py-2 text-sm text-gray-700">
+                            <li>
+                                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Order</a>
+                            </li>
+                            <li>
+                                <a href="wishlist.html" class="block px-4 py-2 hover:bg-gray-100">Wishlist</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Shopping Cart</a>
+                            </li>
+                        </ul>
+                        <div class="py-1">
+                            <a href="/src/components/Admin/login.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
                         </div>
                     </div>
-    
-                    <div class="w-1/2 space-y-6">
-                        <h2 class="text-3xl font-bold">Premium Cotton T-Shirt</h2>
-                        <p class="text-2xl font-semibold">$49.99</p>
-    
-                        <div class="space-y-4">
-                            <h3 class="font-semibold">Select Size</h3>
-                            <div class="flex gap-4">
-                                <button class="w-12 h-12 border rounded-full hover:bg-gray-100 transition-colors">S</button>
-                                <button class="w-12 h-12 border rounded-full hover:bg-gray-100 transition-colors">M</button>
-                                <button class="w-12 h-12 border rounded-full hover:bg-gray-100 transition-colors">L</button>
-                                <button class="w-12 h-12 border rounded-full hover:bg-gray-100 transition-colors">XL</button>
-                            </div>
-                        </div>
-    
-                        <div class="space-y-4">
-                            <h3 class="font-semibold">Select Color</h3>
-                            <div class="flex gap-4">
-                                <button class="w-8 h-8 bg-red-500 rounded-full hover:ring-2 ring-offset-2 transition-all"></button>
-                                <button class="w-8 h-8 bg-blue-500 rounded-full hover:ring-2 ring-offset-2 transition-all"></button>
-                                <button class="w-8 h-8 bg-green-500 rounded-full hover:ring-2 ring-offset-2 transition-all"></button>
-                            </div>
-                        </div>
-    
-                        <button class="w-full bg-black text-white py-4 rounded-lg hover:bg-gray-800 transition-colors">Add to Cart</button>
-    
-                        <details class="group">
-                            <summary class="list-none font-semibold cursor-pointer">Customer Reviews</summary>
-                            <div class="mt-4 space-y-4">
-                                <div class="border-b pb-4">
-                                    <div class="flex items-center">
-                                        <span class="material-symbols-outlined text-yellow-400">star</span>
-                                        <span class="material-symbols-outlined text-yellow-400">star</span>
-                                        <span class="material-symbols-outlined text-yellow-400">star</span>
-                                        <span class="material-symbols-outlined text-yellow-400">star</span>
-                                        <span class="material-symbols-outlined text-yellow-400">star</span>
-                                    </div>
-                                    <p class="mt-2">Great product! The quality is amazing.</p>
-                                </div>
-                            </div>
-                        </details>
+                </div>
+                
+                <div class="relative">
+                    <span class="material-symbols-outlined cursor-pointer" id="favorite-icon">favorite</span>
+                    <span class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center" id="favorite-count">0</span>
+                </div>
+                <div class="relative">
+                    <span class="material-symbols-outlined cursor-pointer" id="cart-icon">shopping_cart</span>
+                    <span class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center" id="cart-count">0</span>
+                </div>
+            </div>
+        </nav>
+        <div class="flex justify-center space-x-8 py-4 border-t">
+            <a href="mens.html" class="hover:underline">Men</a>
+            <a href="#" class="hover:underline">Women</a>
+            <a href="#" class="hover:underline">Kids</a>
+        </div>
+    </header>
+
+    <div class="flex">
+   
+        
+        <div id="webcrumbs" class="max-w-6xl mx-auto p-8">
+            <main id="product-details">
+                <section class="flex flex-col md:flex-row gap-8">
+                    <div class="md:w-1/2">
+                        <img id="mainImage" class="w-full rounded-lg hover:scale-105 transition-transform duration-300" alt="Product" />
+                        <div id="thumbnailContainer" class="grid grid-cols-4 gap-4 mt-4"></div>
                     </div>
-                </section>
-    
-                <section class="mt-16">
-                    <h2 class="text-2xl font-bold mb-8">Related Products</h2>
-                    <div class="grid grid-cols-4 gap-6">
-                        <div class="group flex flex-col h-full">
-                            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab" class="rounded-lg group-hover:scale-105 transition-transform duration-300 h-96 object-cover" alt="Related Product" />
-                            <div class="flex flex-col justify-between flex-grow p-8">
-                                <h3 class="mt-4 font-semibold text-xl">Casual Shirt</h3>
-                                <p class="mt-2 text-lg font-semibold">$39.99</p>
+        
+                    <div class="md:w-1/2 space-y-6">
+                        <h2 id="productName" class="text-3xl font-bold"></h2>
+                        <div class="flex items-center gap-4">
+                            <span id="finalPrice" class="text-2xl font-bold"></span>
+                            <span id="originalPrice" class="text-lg text-gray-500 line-through"></span>
+                            <span id="discount" class="bg-green-100 text-green-800 text-sm px-2 py-1 rounded"></span>
+                        </div>
+        
+                        <p id="productDescription" class="text-gray-600"></p>
+                        <p id="stockStatus" class="text-red-600"></p>
+        
+                        <div class="flex gap-4">
+                            <div class="space-y-4 flex-1">
+                                <h3 class="font-semibold">Select Size</h3>
+                                <div id="sizeOptions" class="flex gap-4"></div>
+                            </div>
+                            <div class="space-y-4 flex-1">
+                                <h3 class="font-semibold">Select Color</h3>
+                                <div id="colorOptions" class="flex gap-4"></div>
                             </div>
                         </div>
-                        <div class="group flex flex-col h-full">
-                            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f" class="rounded-lg group-hover:scale-105 transition-transform duration-300 h-96 object-cover" alt="Related Product" />
-                            <div class="flex flex-col justify-between flex-grow p-8">
-                                <h3 class="mt-4 font-semibold text-xl">Summer Dress</h3>
-                                <p class="mt-2 text-lg font-semibold">$59.99</p>
-                            </div>
-                        </div>
-                        <div class="group flex flex-col h-full">
-                            <img src="https://images.unsplash.com/photo-1519238263530-99bdd11df2ea" class="rounded-lg group-hover:scale-105 transition-transform duration-300 h-96 object-cover" alt="Related Product" />
-                            <div class="flex flex-col justify-between flex-grow p-8">
-                                <h3 class="mt-4 font-semibold text-xl">Kids Jumper</h3>
-                                <p class="mt-2 text-lg font-semibold">$29.99</p>
-                            </div>
-                        </div>
-                        <div class="group flex flex-col h-full">
-                            <img src="https://images.unsplash.com/photo-1539533113208-f6df8cc8b543" class="rounded-lg group-hover:scale-105 transition-transform duration-300 h-96 object-cover" alt="Related Product" />
-                            <div class="flex flex-col justify-between flex-grow p-8">
-                                <h3 class="mt-4 font-semibold text-xl">Winter Jacket</h3>
-                                <p class="mt-2 text-lg font-semibold">$89.99</p>
-                            </div>
-                        </div>
+        
+                        <button class="w-full bg-black text-white py-4 rounded-lg hover:bg-gray-800 transition-colors" onclick="addToCart()">Add to Cart</button>
                     </div>
                 </section>
-                
-                
-                
             </main>
         </div>
+        
     </div>
 
-
-    <footer class="bg-gray-900 text-white mt-12">
-        <div class="max-w-7xl mx-auto px-6 py-12">
-            <div class="grid grid-cols-4 gap-8">
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">About Us</h3>
-                    <p class="text-gray-400">WearVibe is your destination for trendy and comfortable clothing.</p>
+    <footer class="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold">About Us</h3>
+                    <p class="text-gray-300">WearVibe is your destination for trendy and comfortable clothing.</p>
                 </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="/shop" class="text-gray-400 hover:text-white transition-colors">Shop</a></li>
-                        <li><a href="/contact" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
-                        <li><a href="/faq" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+                        <li><a href="/frontend/reqVendorForm.html" class="text-gray-300 hover:text-white transition-all">Sell Your Product</a></li>
+                        <li><a href="/shop" class="text-gray-300 hover:text-white transition-all">Shop</a></li>
+                        <li><a href="/help" class="text-gray-300 hover:text-white transition-all">Help</a></li>
+                        <li><a href="/faq" class="text-gray-300 hover:text-white transition-all">FAQ</a></li>
+                        <li><a href="/contact" class="text-gray-300 hover:text-white transition-all">Contact Us</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li>123 Fashion Street</li>
-                        <li>Style City, SC 12345</li>
-                        <li>contact@wearvibe.com</li>
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold">Customer Policies</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-all">Return Policy</a></li>
+                        <li><a href="privacypolicy.html" class="text-gray-300 hover:text-white transition-all">Privacy Policy</a></li>
+                        <li><a href="/terms" class="text-gray-300 hover:text-white transition-all">Terms & Conditions</a></li>
+                        <li><a href="/track" class="text-gray-300 hover:text-white transition-all">Track Order</a></li>
+                        <li><a href="/shipping" class="text-gray-300 hover:text-white transition-all">Shipping</a></li>
+                        <li><a href="/cancel" class="text-gray-300 hover:text-white transition-all">Cancellation</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
-                    <div class="flex space-x-4">
-                        <a href="#" class="hover:text-blue-400 transition-colors">
-                            <span class="material-symbols-outlined">facebook</span>
-                        </a>
-                        <a href="#" class="hover:text-blue-400 transition-colors">
-                            <span class="material-symbols-outlined">twitter</span>
-                        </a>
-                        <a href="#" class="hover:text-blue-400 transition-colors">
-                            <span class="material-symbols-outlined">instagram</span>
-                        </a>
-                    </div>
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold">Contact Us</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li class="hover:text-white transition-colors">123 Fashion Street</li>
+                        <li class="hover:text-white transition-colors">Style City, SC 12345</li>
+                        <li class="hover:text-white transition-colors">contact@wearvibe.com</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </footer>
-</div>
-</div>
 
-<div id="cart-modal" class="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 hidden">
-<div class="w-1/3 bg-white p-6 rounded-lg m-auto mt-32">
-    <h2 class="text-xl font-semibold mb-4">Your Cart</h2>
-    <div id="cart-items-list"></div>
-    <div class="mt-6 text-right">
-        <button id="close-cart" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Close</button>
+    <div id="cart-modal" class="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 hidden">
+        <div class="w-1/3 bg-white p-6 rounded-lg m-auto mt-32">
+            <h2 class="text-xl font-semibold mb-4">Your Cart</h2>
+            <div id="cart-items-list"></div>
+            <div class="mt-6 text-right">
+                <button id="close-cart" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Close</button>
+            </div>
+        </div>
     </div>
-</div>
-</div>
 
 
-<script src="garment.js"></script>
-    
+<script src="/frontend/productDetail.js"></script>
 </body>
 </html>

@@ -1,48 +1,49 @@
-const Product = require('../models/productSchema');
-const Order = require('../models/orderSchema');
-const { successResponse, errorResponse } = require('../utils/response');
-const userSchema = require('../models/UserSchema');
+const Razorpay = require("razorpay");
+const crypto = require("crypto");
+require("dotenv").config();
 
-// create user order controller
-exports.createOrderController = async (req, res) => {
-    console.log(req.body);
-    const { userId, products, shippingAddress, totalAmount, paymentStatus, orderStatus } = req.body;
+// Razorpay instance create karo
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET
+});
 
+// Order create API
+exports.createOrderController =  async (req, res) => {
     try {
-        // User ko verify karein
-        const user = await userSchema.findById(userId);
-        if (!user) {
-            return errorResponse(res, "User not found", 400);
-        }
+        const { amount, currency } = req.body;
 
-        const productDetails = [];
+        const options = {
+            amount: amount * 100, 
+            currency: currency || "INR",
+            receipt: `receipt_${Date.now()}`,
+        };
 
-        // Products ko validate karein
-        for (let i = 0; i < products.length; i++) {
-            const product = await Product.findById(products[i].productId);
-            if (!product) {
-                return errorResponse(res, `Product with ID ${products[i].productId} not found`, 400);
-            }
-            productDetails.push({
-                productId: product._id,
-                quantity: products[i].quantity,
-                price: product.price
-            });
-        }
-
-        // Order create karein
-        const order = new Order({
-            userId,
-            products: productDetails,
-            totalAmount, // Use totalAmount from request body
-            paymentStatus, // Use paymentStatus from request body
-            orderStatus,   // Use orderStatus from request body
-            shippingAddress,
-        });
-
-        await order.save();
-        return successResponse(res, "Order created successfully", 201);
+        const order = await razorpay.orders.create(options);
+        res.status(200).json({ success: true, order });
     } catch (error) {
-        return errorResponse(res, "Internal Server Error", { error: error.message }, 500);
+        console.log(error);
+        res.status(500).json({ success: false, message: "Order creation failed" });
     }
 };
+
+exports.verifyPaymentController = (req,res)=>{
+    try {
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+        const generated_signature = crypto
+            .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+            .update(razorpay_order_id + "|" + razorpay_payment_id)
+            .digest("hex");
+
+        if (generated_signature === razorpay_signature) {
+            res.status(200).json({ success: true, message: "Payment Verified Successfully" });
+        } else {
+            res.status(400).json({ success: false, message: "Invalid Signature" });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: "Payment verification failed" });
+    }
+
+}

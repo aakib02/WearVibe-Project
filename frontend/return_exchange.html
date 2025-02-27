@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Return & Exchange</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="return.js"></script>
+
+</head>
+<body class="bg-gray-100">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-md py-4 px-4 flex justify-between items-center">
+        <!-- WearVibe Logo & Navigation -->
+        <h1 class="text-2xl font-bold text-gray-800 cursor-pointer" onclick="window.location.href='garment.html'">
+            wearvibe
+        </h1>
+    </header>
+
+    <!-- Exchange Suggestion Popup -->
+    <div id="exchangePopup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white py-10 rounded-lg shadow-lg text-center w-80 relative">
+            <!-- Corrected Close Button Position -->
+            <button onclick="closePopup()" class="absolute text-xl font-semibold top-2 right-2 text-gray-500 hover:text-black">
+                &times;
+            </button>
+            <p class="text-lg font-semibold">You can try Exchange feature!</p>
+            <button onclick="selectExchange()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md">
+                Sure! Let's Exchange
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Product Tile (Loaded from Previous Page) -->
+    <div id="exchange-product-image" class="flex items-center gap-4 bg-gray-100 p-4 rounded-lg"></div>
+
+
+    <!-- Return & Exchange Tabs -->
+    <div class="bg-white mx-4 p-4 rounded-lg shadow-md flex justify-center space-x-4">
+        <button id="returnTab" onclick="showReturn()" class="px-6 py-2 text-gray-600 hover:text-black">Return</button>
+        <button id="exchangeTab" onclick="showExchange()" class="px-6 py-2 text-gray-600 hover:text-black">Exchange</button>
+    </div>
+
+    <!-- Return Section -->
+    <div id="returnSection" class="bg-white m-4 p-4 rounded-lg shadow-md hidden transition-transform duration-500">
+        <h2 class="text-xl font-semibold">Return Product</h2>
+        <p class="text-gray-600">Fill details to return the product.</p>
+    
+        <div class="flex items-center mt-3">
+            <img id="return-product-image" src="images/img1.jpg" alt="Product Image" class="w-24 h-24 object-cover rounded-lg">
+            <div class="ml-4">
+                <p class="text-gray-600 font-medium" id="return-product-name">Green Women Relaxed Straight Leg Jeans</p>
+                <p class="text-gray-500 text-sm">Size: <span id="return-product-size">26</span></p>
+            </div>
+        </div>
+    
+
+        <!-- Return Reasons Grid -->
+        <div class="grid grid-cols-2 gap-4 mt-4">
+            <!-- Wrong Product Received -->
+            <div class="flip-card bg-red-100 p-4 rounded-lg shadow-md text-center cursor-pointer" onclick="flipTile(this)">
+                <div class="before-flip-content">
+                    <p class="font-semibold text-red-600">Wrong Product Received</p>
+                </div>
+                <div class="flip-content">
+                    <p class="font-semibold text-red-600">Wrong Product Received</p>
+                    <label class="block"><input type="radio" name="returnReason" value="completely_different"> Completely Different</label>
+                    <label class="block"><input type="radio" name="returnReason" value="different_color"> Different Color</label>
+                    <label class="block"><input type="radio" name="returnReason" value="different_size"> Different Size</label>
+                </div>
+            </div>
+
+            <!-- Damaged Product -->
+            <div class="flip-card bg-yellow-100 p-4 rounded-lg shadow-md text-center cursor-pointer" onclick="flipTile(this)">
+                <div class="before-flip-content">
+                    <p class="font-semibold text-yellow-600">Damaged Product</p>
+                </div>
+                <div class="flip-content">
+                    <p class="font-semibold text-yellow-600">Damaged Product</p>
+                    <label class="block"><input type="radio" name="returnReason" value="torn"> Torn Product</label>
+                    <label class="block"><input type="radio" name="returnReason" value="used"> Used Product</label>
+                </div>
+            </div>
+
+            <!-- Size Issue -->
+            <div class="flip-card bg-blue-100 p-4 rounded-lg shadow-md text-center cursor-pointer" onclick="flipTile(this)">
+                <div class="before-flip-content">
+                    <p class="font-semibold text-blue-600">Size Issue</p>
+                </div>
+                <div class="flip-content">
+                    <p class="font-semibold text-blue-600">Size Issue</p>
+                    <label class="block"><input type="radio" name="returnReason" value="loose"> Correct Size, but Loose</label>
+                    <label class="block"><input type="radio" name="returnReason" value="tight"> Correct Size, but Tight</label>
+                </div>
+            </div>
+
+            <!-- Received Incomplete Product -->
+            <div class="flip-card bg-green-100 p-4 rounded-lg shadow-md text-center cursor-pointer" onclick="flipTile(this)">
+                <div class="before-flip-content">
+                    <p class="font-semibold text-green-600">Received Incomplete Product</p>
+                </div>
+                    <div class="flip-content">
+                        <p class="font-semibold text-green-600">Received Incomplete Product</p>
+                        <label class="block"><input type="radio" name="returnReason" value="part_missing"> A Part of the Product is Missing</label>
+                    </div>
+                </div>
+        </div>
+
+        <!-- Image Upload -->
+        <div class="mt-4">
+            <label class="font-semibold">Upload Image</label>
+            <input type="file" id="imageUpload" class="block w-full mt-1">
+        </div>
+
+        <!-- Additional Comments -->
+        <div class="mt-4">
+            <label class="font-semibold">Additional Comments</label>
+            <textarea id="comments" class="w-full border p-2 mt-1" rows="3" placeholder="Describe your issue..."></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex items-center justify-center space-x-4 mt-4">
+            <button onclick="submitReturn()" class="bg-blue-600 text-white px-4 py-2 rounded-md mt-4 hover:bg-blue-700 transition" onclick="submitReturn()">Confirm Return</button>
+            <button id="cancelReturnBtn" onclick="showConfirmPopup('return')" class="bg-gray-400 text-white px-4 py-2 rounded-md mt-4 cursor-not-allowed" disabled>Cancel Return</button>
+        </div>
+
+        <!-- Overlay to disable section -->
+        <div id="returnOverlay" class="top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 hidden"></div>
+
+
+        <!-- Return Success Popup -->
+        <div id="returnSuccessPopup" class="hidden fixed inset-0 flex items-center justify-center bg-opacity-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center relative w-64 h-48 flex flex-col justify-center items-center">
+                <div class="animate-checkmark w-18 h-18 rounded-full flex items-center justify-center">
+                <!-- Animated Blue Circle -->
+                    <div class="absolute inset-0 animate-ping rounded-full border-4 border-blue-500 opacity-50"></div>
+                <!-- Checkmark Icon -->
+                    <div class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12l4 4L19 7" />
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-lg font-semibold mt-8 text-blue-500">Your Exchange Request is Completed</p>
+            </div>
+        </div>
+
+        <!-- Return Error Popup -->
+        <div id="returnErrorPopup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                <p id="returnErrorPopupText" class="text-red-600 font-semibold"></p>
+                <button onclick="closeReturnErrorPopup()" class="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">OK</button>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Exchange Section -->
+    <div id="exchangeSection" class="bg-white m-4 p-4 rounded-lg shadow-md hidden transition-transform duration-500">
+        <h2 class="text-xl font-semibold">Exchange Product</h2>
+        <p class="text-gray-600">Fill details to exchange the product.</p>
+    
+        <div class="flex items-center mt-3">
+            <img id="exchange-product-image" src="images/img1.jpg" alt="Product Image" class="w-24 h-24 object-cover rounded-lg">
+            <div class="ml-4">
+                <p class="text-gray-600 font-medium" id="exchange-product-name">Green Women Relaxed Straight Leg Jeans</p>
+                <p class="text-gray-500 text-sm">Size: <span id="exchange-product-size">26</span></p>
+            </div>
+        </div>
+    
+        
+
+        <!-- Reason for Exchange -->
+        <div class="mt-4">
+            <p class="text-gray-600 font-medium">Reason for Exchange:</p>
+
+            <div class="grid grid-cols-2 gap-4 mt-4">
+                <div class="flip-card bg-red-100 p-4 rounded-lg shadow-md text-center cursor-pointer mt-2" onclick="flipTile(this)">
+                    <div class="before-flip-content">
+                        <p class="font-semibold text-red-600">Size Issue</p>
+                    </div>
+                    <div class="flip-content hidden">
+                        <p class="font-semibold text-red-600">Size Issue</p>
+                        <label class="block"><input type="radio" name="exchangeReason" value="small"> Too Small</label>
+                        <label class="block"><input type="radio" name="exchangeReason" value="big"> Too Big</label>
+                    </div>
+                </div>
+
+                <div class="flip-card bg-yellow-100 p-4 rounded-lg shadow-md text-center cursor-pointer mt-2" onclick="flipTile(this)">
+                    <div class="before-flip-content">
+                        <p class="font-semibold text-yellow-600">Colour Issue Issue</p>
+                    </div>
+                    <div class="flip-content hidden">
+                        <p class="font-semibold text-yellow-600">Colour Issue</p>
+                        <label class="block"><input type="radio" name="exchangeReason" value="small"> Colour is not same as shown in the image</label>
+                        <label class="block"><input type="radio" name="exchangeReason" value="big"> Colour is same as shown, but not looking good</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mt-4">
+            <!-- Size Dropdown -->
+            <div class="relative">
+                <div class="bg-red-100 text-center p-3 shadow-md rounded-md font-semibold cursor-pointer" 
+                    onclick="toggleDropdown('sizeDropdown')">Select Size</div>
+                <div id="sizeDropdown" class="absolute w-full hidden bg-white shadow-md rounded-md mt-1">
+                    <div class="p-2 text-center cursor-pointer hover:bg-gray-200" onclick="selectOption('sizeDropdown', '28')">28</div>
+                    <div class="p-2 text-center cursor-pointer hover:bg-gray-200" onclick="selectOption('sizeDropdown', '30')">30</div>
+                    <div class="p-2 text-center cursor-pointer hover:bg-gray-200" onclick="selectOption('sizeDropdown', '32')">32</div>
+                </div>
+            </div>
+        
+            <!-- Color Dropdown -->
+            <div class="relative">
+                <div class="bg-yellow-100 text-center p-3 shadow-md rounded-md font-semibold cursor-pointer" 
+                    onclick="toggleDropdown('colorDropdown')">Select Color</div>
+                <div id="colorDropdown" class="absolute w-full hidden bg-white shadow-md rounded-md mt-1">
+                    <div class="p-2 text-center cursor-pointer hover:bg-gray-200" onclick="selectOption('colorDropdown', 'Black')">Black</div>
+                    <div class="p-2 text-center cursor-pointer hover:bg-gray-200" onclick="selectOption('colorDropdown', 'Blue')">Blue</div>
+                    <div class="p-2 text-center cursor-pointer hover:bg-gray-200" onclick="selectOption('colorDropdown', 'Red')">Red</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirm Exchange Button -->
+        <div class="flex items-center justify-center space-x-4 mt-4">
+            <button onclick="confirmExchange()" class="bg-blue-600 text-white px-4 py-2 rounded-md mt-4 hover:bg-blue-700 transition">Confirm Exchange</button>
+            <button id="cancelExchangeBtn" onclick="showConfirmPopup('exchange')" class="bg-gray-400 text-white px-4 py-2 rounded-md mt-4 cursor-not-allowed" disabled>Cancel Exchange</button>        
+        </div>
+        <!-- Overlay to disable section -->
+        <div id="exchangeOverlay" class="top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 hidden"></div>
+
+    </div>
+
+   
+
+        <!-- Error Pop-up -->
+        <div id="errorPopup" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="bg-white p-4 rounded-lg py-10 px-8 shadow-lg text-center relative">
+                <button class="absolute top-1 right-2 text-2xl font-semibold text-gray-600 hover:text-red-600" onclick="closeErrorPopup()">&times;</button>
+                <p id="errorPopupText" class="text-lg font-semibold text-red-600"></p>
+            </div>
+        </div>
+
+        <!-- Info Pop-up -->
+    <div id="infoPopup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-4 rounded-lg shadow-lg text-center">
+            <p id="infoPopupText" class="text-gray-800 font-medium"></p>
+            <button onclick="closeInfoPopup()" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg">
+                Close
+            </button>
+        </div>
+    </div>
+
+        <!-- Success Pop-up -->
+            <div id="successPopup" class="hidden fixed inset-0 flex items-center justify-center bg-opacity-50">
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center relative w-64 h-48 flex flex-col justify-center items-center">
+                    <div class="animate-checkmark w-18 h-18 rounded-full flex items-center justify-center">
+                    <!-- Animated Blue Circle -->
+                        <div class="absolute inset-0 animate-ping rounded-full border-4 border-blue-500 opacity-50"></div>
+                    <!-- Checkmark Icon -->
+                        <div class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12l4 4L19 7" />
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-lg font-semibold mt-8 text-blue-500">Your Exchange Request is Completed</p>
+                </div>
+            </div>
+
+            <!-- Confirmation Pop-up HTML -->
+            <div id="confirmCancelPopup" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center w-80">
+                    <p class="text-lg font-semibold">Are you sure you want to cancel the request?</p>
+                    <div class="mt-4 flex justify-center gap-4">
+                        <button onclick="confirmCancel()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Yes</button>
+                        <button onclick="closeConfirmPopup()" class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">No</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+
+
+    
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Load clicked product name
+            let productName = localStorage.getItem("selectedProduct") || new URLSearchParams(window.location.search).get("name");
+            let productSize = localStorage.getItem("selectedSize") || new URLSearchParams(window.location.search).get("size");
+            let productImage = localStorage.getItem("selectedImage") || new URLSearchParams(window.location.search).get("image");
+
+            if (productName) {
+                document.getElementById("return-product-name").innerText = decodeURIComponent(productName);
+                document.getElementById("exchange-product-name").innerText = decodeURIComponent(productName);
+            }
+            if (productSize) {
+                document.getElementById("return-product-size").innerText = decodeURIComponent(productSize);
+                document.getElementById("exchange-product-size").innerText = decodeURIComponent(productSize);
+            }
+            if (productImage) {
+                document.getElementById("return-product-image").src = decodeURIComponent(productImage);
+                document.getElementById("exchange-product-image").src = decodeURIComponent(productImage);
+            }
+
+
+            // Show Exchange Suggestion Popup on Page Load
+            document.getElementById("exchangePopup").classList.remove("hidden");
+            });
+
+            function closePopup() {
+                document.getElementById("exchangePopup").classList.add("hidden");
+            }
+
+            function selectExchange() {
+                closePopup();
+                showExchange();
+            }
+
+            
+            function flipTile(tile) {
+                tile.classList.toggle('flipped'); // Flip add/remove karega
+                let content = tile.querySelector('.flip-content');
+
+                if (tile.classList.contains('flipped')) {
+                    content.style.display = 'block'; // Flip hone pe show karega
+                } else {
+                    content.style.display = 'none';  // Wapas click pe hide karega
+                }
+            }
+
+            document.querySelectorAll('input[name="returnReason"]').forEach(input => {
+                input.addEventListener('change', function () {
+                    document.querySelectorAll('input[name="returnReason"]').forEach(other => {
+                        if (other !== this) {
+                            other.checked = false;
+                        }
+                    });
+                });
+            });
+
+            // Ensure only one return reason is selected at a time
+            document.querySelectorAll('input[name="returnReason"]').forEach(input => {
+                input.addEventListener('change', function () {
+                    document.querySelectorAll('input[name="returnReason"]').forEach(other => {
+                        if (other !== this) {
+                            other.checked = false;
+                        }
+                    });
+                });
+            });
+
+            // **Dropdown Toggle Logic**
+            function toggleDropdown(id) {
+                document.getElementById(id).style.display = 
+                    document.getElementById(id).style.display === "block" ? "none" : "block";
+            }
+
+            function selectOption(dropdownId, value) {
+                let button = document.querySelector(`#${dropdownId}`).previousElementSibling;
+                button.innerText = value; // Update the button text
+                document.getElementById(dropdownId).style.display = "none";
+                
+                validateExchangeForm(); // Validate form on every change
+            }
+
+            let isReturnSubmitted = false;
+let isExchangeSubmitted = false;
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("cancelReturnBtn").disabled = true;
+    document.getElementById("cancelExchangeBtn").disabled = true;
+});
+
+function showReturn() {
+    let returnSection = document.getElementById("returnSection");
+    let exchangeSection = document.getElementById("exchangeSection");
+
+    if (!exchangeSection.classList.contains("hidden")) {
+        exchangeSection.classList.add("hidden");
+        returnSection.classList.remove("hidden");
+        returnSection.classList.add("animate-slide-in-left");
+    } else {
+        returnSection.classList.remove("hidden");
+        returnSection.classList.add("animate-slide-down");
+    }
+
+    if (isExchangeSubmitted) {
+        showInfoPopup("returnOverlay", "If you want to return the product, kindly cancel the exchange request.");
+    }
+}
+
+function showExchange() {
+    let returnSection = document.getElementById("returnSection");
+    let exchangeSection = document.getElementById("exchangeSection");
+
+    if (!returnSection.classList.contains("hidden")) {
+        returnSection.classList.add("hidden");
+        exchangeSection.classList.remove("hidden");
+        exchangeSection.classList.add("animate-slide-in-right");
+    } else {
+        exchangeSection.classList.remove("hidden");
+        exchangeSection.classList.add("animate-slide-down");
+    }
+
+    if (isReturnSubmitted) {
+        showInfoPopup("exchangeOverlay", "If you want to exchange the product, kindly cancel the return request.");
+    }
+}
+
+function submitReturn() {
+    let selectedReason = document.querySelector('input[name="returnReason"]:checked');
+    let imageUpload = document.getElementById("imageUpload");
+
+    if (!selectedReason) {
+        showErrorPopup("Please choose a reason to return the product.");
+        return;
+    }
+
+    if (imageUpload.files.length === 0) {
+        showErrorPopup("Please upload at least 1 image of the product received.");
+        return;
+    }
+
+    isReturnSubmitted = true;
+    showSuccessPopup();
+    disableSection("exchangeSection", "exchangeOverlay");
+
+    document.getElementById("confirmReturnBtn").disabled = true;
+    document.getElementById("cancelReturnBtn").disabled = false;
+}
+
+function confirmExchange() {
+    let selectedReason = document.querySelector('input[name="exchangeReason"]:checked');
+    let selectedSize = document.querySelector("#sizeDropdown")?.previousElementSibling?.innerText?.trim();
+    let selectedColor = document.querySelector("#colorDropdown")?.previousElementSibling?.innerText?.trim();
+
+    if (!selectedReason) {
+        showErrorPopup("Select a reason to exchange!");
+        return;
+    }
+
+    if (selectedSize === "Select Size" && selectedColor === "Select Color") {
+        showErrorPopup("Select a size or a color to exchange!");
+        return;
+    }
+
+    isExchangeSubmitted = true;
+    showSuccessPopup();
+    disableSection("returnSection", "returnOverlay");
+
+    setTimeout(() => {
+        let cancelExchangeBtn = document.getElementById("cancelExchangeBtn");
+        let confirmExchangeBtn = document.querySelector("button[onclick='confirmExchange()']");
+
+        if (confirmExchangeBtn) {
+            confirmExchangeBtn.disabled = true;
+            confirmExchangeBtn.classList.add("bg-gray-400", "cursor-not-allowed");
+
+            // ✅ UI Refresh Trick for "Confirm Exchange"
+            confirmExchangeBtn.style.display = "none";
+            confirmExchangeBtn.offsetHeight;  // 🔥 Force UI to update
+            confirmExchangeBtn.style.display = "inline-block";
+        }
+
+        if (cancelExchangeBtn) {
+            cancelExchangeBtn.disabled = false;
+            cancelExchangeBtn.classList.remove("bg-gray-400", "cursor-not-allowed");
+            cancelExchangeBtn.classList.add("bg-red-600", "hover:bg-red-700");
+
+            // ✅ UI Refresh Trick for "Cancel Exchange"
+            cancelExchangeBtn.style.display = "none";
+            cancelExchangeBtn.offsetHeight;  // 🔥 Force UI to update
+            cancelExchangeBtn.style.display = "inline-block";
+        }
+    }, 50);
+}
+
+
+function showSuccessPopup() {
+    let popup = document.getElementById("successPopup");
+    popup.classList.remove("hidden");
+    setTimeout(() => {
+        popup.classList.add("hidden");
+    }, 2000);
+}
+
+function showErrorPopup(message) {
+    let popup = document.getElementById("errorPopup");
+    document.getElementById("errorPopupText").innerText = message;
+    popup.classList.remove("hidden");
+}
+
+function closeErrorPopup() {
+    document.getElementById("errorPopup").classList.add("hidden");
+}
+
+function disableSection(sectionId, overlayId) {
+    let section = document.getElementById(sectionId);
+    let overlay = document.getElementById(overlayId);
+    
+    overlay.classList.remove("hidden");
+    section.classList.add("opacity-50", "pointer-events-none");
+}
+
+function showInfoPopup(overlayId, message) {
+    document.getElementById(overlayId).classList.remove("hidden");
+    document.getElementById("infoPopupText").innerText = message;
+    document.getElementById("infoPopup").classList.remove("hidden");
+}
+
+function closeInfoPopup() {
+    document.getElementById("infoPopup").classList.add("hidden");
+}
+
+function cancelReturn() {
+    isReturnSubmitted = false;
+    enableSection("exchangeSection", "exchangeOverlay");
+
+    // ✅ Enable "Confirm Return" and Disable "Cancel Return"
+    let confirmReturnBtn = document.querySelector("button[onclick='submitReturn()']");
+    let cancelReturnBtn = document.getElementById("cancelReturnBtn");
+
+    if (confirmReturnBtn) {
+        confirmReturnBtn.disabled = false;
+        confirmReturnBtn.classList.remove("bg-gray-400", "cursor-not-allowed");
+        confirmReturnBtn.classList.add("bg-blue-600", "hover:bg-blue-700");
+    }
+
+    if (cancelReturnBtn) {
+        cancelReturnBtn.disabled = true;
+        cancelReturnBtn.classList.add("bg-gray-400", "cursor-not-allowed");
+        cancelReturnBtn.classList.remove("bg-red-500", "hover:bg-red-600");
+    }
+}
+
+function cancelExchange() {
+    isExchangeSubmitted = false;
+    enableSection("returnSection", "returnOverlay");
+
+    // ✅ Enable "Confirm Exchange" and Disable "Cancel Exchange"
+    let confirmExchangeBtn = document.querySelector("button[onclick='confirmExchange()']");
+    let cancelExchangeBtn = document.getElementById("cancelExchangeBtn");
+
+    if (confirmExchangeBtn) {
+        confirmExchangeBtn.disabled = false;
+        confirmExchangeBtn.classList.remove("bg-gray-400", "cursor-not-allowed");
+        confirmExchangeBtn.classList.add("bg-blue-600", "hover:bg-blue-700");
+    }
+
+    if (cancelExchangeBtn) {
+        cancelExchangeBtn.disabled = true;
+        cancelExchangeBtn.classList.add("bg-gray-400", "cursor-not-allowed");
+        cancelExchangeBtn.classList.remove("bg-red-500", "hover:bg-red-600");
+    }
+}
+
+
+function enableSection(sectionId, overlayId) {
+    let section = document.getElementById(sectionId);
+    let overlay = document.getElementById(overlayId);
+
+    overlay.classList.add("hidden");
+    section.classList.remove("opacity-50", "pointer-events-none");
+}
+
+let cancelType = "";
+
+function showConfirmPopup(type) {
+    cancelType = type;
+    document.getElementById("confirmCancelPopup").classList.remove("hidden");
+}
+
+function closeConfirmPopup() {
+    document.getElementById("confirmCancelPopup").classList.add("hidden");
+}
+
+function confirmCancel() {
+    if (cancelType === "return") {
+        cancelReturn();
+    } else if (cancelType === "exchange") {
+        cancelExchange();
+    }
+    closeConfirmPopup();
+}
+
+
+
+    </script>
+    
+
+    <style>
+        /* Slide Down */
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide-down { animation: slideDown 1s ease-in-out; }
+
+        /* Slide In Right */
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-slide-in-right { animation: slideInRight 1s ease-in-out; }
+
+        /* Slide In Left */
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-slide-in-left { animation: slideInLeft 1s ease-in-out; }
+
+        /* Right Tick Animation */
+        @keyframes popUp {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        .animate-checkmark {
+            animation: popUp 0.5s ease-in-out;
+        }
+
+
+        /* Flip Container */
+        .flip-card {
+            transition: transform 0.5s ease-in-out;
+            position: relative;
+            width: 100%;
+            height: 140px; /* Fixed tile height to prevent size change */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Hide text on flip */
+        .flip-card.flipped .flip-text {
+            display: none; /* Flip hone ke baad text hide hoga */
+        }
+
+        /* Flip Animation */
+        .flip-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* Flip Content */
+        .flip-content {
+            transform: rotateY(180deg);
+            display: none; /* Pehle hidden hoga */
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        /* Show content only after flip */
+        .flip-card.flipped .flip-content {
+            display: block; /* Flip hone ke baad show hoga */
+        }
+
+        .flip-card.flipped .before-flip-content {
+            display: none;
+        }
+
+    </style>
+</body>
+</html>

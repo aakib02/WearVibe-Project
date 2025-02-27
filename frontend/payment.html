@@ -117,11 +117,11 @@
         <div class="bg-gray-50 p-4 rounded-lg">
             <div class="flex justify-between mb-2">
                 <p>Total MRP</p>
-                <p>₹2,499</p>
+                <p id="totalMRP">₹2,499</p>
             </div>
             <div class="flex justify-between mb-2">
-                <p>Platform Fee</p>
-                <p>₹20</p>
+                <p>Discount</p>
+                <p id="totalDiscount">₹20</p>
             </div>
             <div class="flex justify-between mb-2">
                 <p>Shipping Fee</p>
@@ -129,14 +129,14 @@
             </div>
             <div class="flex justify-between font-bold text-lg">
                 <p>Total Amount</p>
-                <p>₹2,519</p>
+                <p id="totalAmount">₹0.00</p>
             </div>
         </div>
 
         <div class="flex justify-center mt-6">
-            <button onclick="window.location.href='ordertracking.html'" 
+            <button onclick="startPayment()" onclick="window.location.href='ordertracking.html'" 
                 class="bg-blue-600 text-white py-3 px-6 rounded-lg text-lg font-semibold">
-                Place Order
+                pay now
             </button>
         </div>
 
@@ -187,28 +187,7 @@
             </div>
         </div>
     </footer>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const avatarButton = document.getElementById("avatarButton");
-            const userDropdown = document.getElementById("userDropdown");
 
-            avatarButton.addEventListener("click", function () {
-                userDropdown.classList.toggle("hidden");
-            });
-
-            document.addEventListener("click", function (event) {
-                if (!avatarButton.contains(event.target) && !userDropdown.contains(event.target)) {
-                    userDropdown.classList.add("hidden");
-                }
-            });
-        });
-    </script>
-
-    <script>
-        document.getElementById('codOption').addEventListener('change', function() {
-            let codAvailable = false; // Change this dynamically as needed
-            document.getElementById('codMessage').classList.toggle('hidden', codAvailable);
-        });
-    </script>
+    <script src="payment.js"></script>
 </body>
 </html>
